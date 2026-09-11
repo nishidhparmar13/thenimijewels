@@ -2,19 +2,29 @@
 
 /* nimi brand palette — deep burgundy jewellery brand, ivory ground, champagne accents. */
 :root {
-  --color-burgundy: #480c14; /* Deep Burgundy — primary brand colour */
-  --color-wine: #650f1c; /* Wine Maroon — secondary / hover states */
-  --color-champagne: #d8c2a5; /* Soft Champagne — premium accents, borders, icons */
-  --color-ivory: #faf7f2; /* Warm Ivory — main background */
-  --color-white: #ffffff; /* Pure White — cards, clean sections */
-  --color-charcoal: #242124; /* Charcoal — body text */
-  --color-taupe: #8a7d78; /* Muted Taupe — secondary text / descriptions */
+  --color-burgundy: #480c14;
+  /* Deep Burgundy — primary brand colour */
+  --color-wine: #650f1c;
+  /* Wine Maroon — secondary / hover states */
+  --color-champagne: #d8c2a5;
+  /* Soft Champagne — premium accents, borders, icons */
+  --color-ivory: #faf7f2;
+  /* Warm Ivory — main background */
+  --color-white: #ffffff;
+  /* Pure White — cards, clean sections */
+  --color-charcoal: #242124;
+  /* Charcoal — body text */
+  --color-taupe: #8a7d78;
+  /* Muted Taupe — secondary text / descriptions */
 
   --background: var(--color-ivory);
   --foreground: var(--color-charcoal);
 }
 
 @theme inline {
+  /* Extra breakpoint for small phones, used alongside Tailwind's defaults */
+  --breakpoint-xs: 22.5rem;
+
   /* Semantic aliases used throughout the app */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -49,4 +59,39 @@ h4,
 h5,
 h6 {
   font-family: var(--font-heading);
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--color-burgundy);
+  color: var(--color-white);
+}
+
+/* Premium scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-ivory);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-champagne);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-burgundy);
 }

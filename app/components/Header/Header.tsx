@@ -2,226 +2,618 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
-import { useGSAP } from '@gsap/react'
+import React, { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { categoryGroups } from '../Categories/categoriesData'
 
-gsap.registerPlugin(ScrollTrigger)
+/**
+ * The dropdown/accordion below is built from the SAME data as the
+ * "Shop by Category" section on the homepage (categoriesData.ts), so the
+ * two never drift out of sync. Each link jumps straight to that group's
+ * heading in the CategoriesView section via its anchor id.
+ */
+const categories = categoryGroups.map((group) => ({
+    name: group.title,
+    href: `/#category-${group.slug}`,
+}))
 
-const LOGO_SRC = '/logos/marron-name-logo-transparent-nimi.png'
-
-const NAV_LINKS = [
-    { label: 'Home', href: '/' },
-    { label: 'Categories', href: '/categories' },
-    { label: 'About Us', href: '/about' },
-] as const
+const navItems = [
+    { name: 'Home', href: '/' },
+    { name: 'Categories', href: '/#categories', dropdown: true },
+]
 
 const Header = () => {
     const headerRef = useRef<HTMLElement>(null)
-    const logoRef = useRef<HTMLAnchorElement>(null)
-    const navRef = useRef<HTMLUListElement>(null)
-    const barTopRef = useRef<HTMLSpanElement>(null)
-    const barMidRef = useRef<HTMLSpanElement>(null)
-    const barBottomRef = useRef<HTMLSpanElement>(null)
-    const panelRef = useRef<HTMLDivElement>(null)
-    const panelLinksRef = useRef<HTMLUListElement>(null)
+    const logoRef = useRef<HTMLDivElement>(null)
+    const navRef = useRef<HTMLDivElement>(null)
+    const mobileMenuRef = useRef<HTMLDivElement>(null)
+    const mobileBackdropRef = useRef<HTMLDivElement>(null)
+    const mobileItemsRef = useRef<HTMLElement[]>([])
+    const mobileCategoryListRef = useRef<HTMLDivElement>(null)
 
-    const pathname = usePathname()
-    const [open, setOpen] = useState(false)
-    const [scrolled, setScrolled] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false)
+    const [categoryOpen, setCategoryOpen] = useState(false)
+    const [mobileCategoryOpen, setMobileCategoryOpen] = useState(false)
 
-    const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
-
-    // Entrance reveal + scroll-reactive compact / hide-on-scroll-down behaviour.
-    useGSAP(
-        () => {
-            const mm = gsap.matchMedia()
-
-            // Compact styling only touches React state + a CSS transition, so it's fine
-            // to run for every viewer regardless of motion preference.
-            let compact = false
-            const compactTrigger = ScrollTrigger.create({
-                start: 'top -80',
-                end: 99999,
-                onUpdate: (self) => {
-                    const next = self.scroll() > 80
-                    if (next !== compact) {
-                        compact = next
-                        setScrolled(next)
-                    }
+    /*
+     * Initial premium reveal
+     */
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            const tl = gsap.timeline({
+                defaults: {
+                    ease: 'power4.out',
                 },
             })
 
-            mm.add('(prefers-reduced-motion: no-preference)', () => {
-                const navItems = navRef.current ? gsap.utils.toArray<HTMLElement>(navRef.current.children) : []
+            tl.fromTo(
+                headerRef.current,
+                {
+                    y: -40,
+                    opacity: 0,
+                },
+                {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                }
+            )
 
-                gsap.set(headerRef.current, { yPercent: -100 })
-                gsap.set(logoRef.current, { opacity: 0, y: -8 })
-                gsap.set(navItems, { opacity: 0, y: -8 })
-
-                gsap
-                    .timeline({ defaults: { ease: 'power3.out' } })
-                    .to(headerRef.current, { yPercent: 0, duration: 0.9, ease: 'expo.out' })
-                    .to(logoRef.current, { opacity: 1, y: 0, duration: 0.6 }, '-=0.5')
-                    .to(navItems, { opacity: 1, y: 0, duration: 0.5, stagger: 0.08 }, '-=0.4')
-
-                // Smart sticky: slide out of view when scrolling down past the fold, reveal on scroll up.
-                let hidden = false
-                const hideTrigger = ScrollTrigger.create({
-                    start: 'top -80',
-                    end: 99999,
-                    onUpdate: (self) => {
-                        const shouldHide = self.direction === 1 && self.scroll() > 220
-                        if (shouldHide !== hidden) {
-                            hidden = shouldHide
-                            gsap.to(headerRef.current, { yPercent: shouldHide ? -100 : 0, duration: 0.45, ease: 'power2.inOut' })
-                        }
+                .fromTo(
+                    logoRef.current,
+                    {
+                        opacity: 0,
+                        y: 15,
+                        scale: 0.92,
+                        filter: 'blur(8px)',
                     },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        scale: 1,
+                        filter: 'blur(0px)',
+                        duration: 1,
+                    },
+                    '-=0.65'
+                )
+
+                .fromTo(
+                    navRef.current?.querySelectorAll('.nav-item') || [],
+                    {
+                        opacity: 0,
+                        y: 12,
+                    },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        stagger: 0.08,
+                    },
+                    '-=0.65'
+                )
+
+            // Small luxury logo movement
+            gsap.to(logoRef.current, {
+                y: -2,
+                duration: 3,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                delay: 1,
+            })
+        }, headerRef)
+
+        return () => ctx.revert()
+    }, [])
+
+    /*
+     * Mobile menu animation
+     */
+    useEffect(() => {
+        if (!mobileMenuRef.current) return
+
+        const ctx = gsap.context(() => {
+            if (menuOpen) {
+                gsap.set(mobileBackdropRef.current, {
+                    pointerEvents: 'auto',
+                })
+                gsap.to(mobileBackdropRef.current, {
+                    opacity: 1,
+                    duration: 0.4,
+                    ease: 'power2.out',
                 })
 
-                return () => hideTrigger.kill()
-            })
+                gsap.to(mobileMenuRef.current, {
+                    height: 'auto',
+                    opacity: 1,
+                    duration: 0.5,
+                    ease: 'power3.out',
+                })
 
-            mm.add('(prefers-reduced-motion: reduce)', () => {
-                gsap.set(headerRef.current, { yPercent: 0 })
-                gsap.set(logoRef.current, { opacity: 1, y: 0 })
-                gsap.set(navRef.current ? navRef.current.children : [], { opacity: 1, y: 0 })
-            })
+                gsap.fromTo(
+                    mobileItemsRef.current,
+                    {
+                        opacity: 0,
+                        x: -20,
+                    },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.45,
+                        stagger: 0.06,
+                        delay: 0.1,
+                        ease: 'power3.out',
+                    }
+                )
+            } else {
+                gsap.set(mobileBackdropRef.current, {
+                    pointerEvents: 'none',
+                })
+                gsap.to(mobileBackdropRef.current, {
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: 'power2.inOut',
+                })
 
-            return () => {
-                compactTrigger.kill()
-                mm.revert()
+                gsap.to(mobileMenuRef.current, {
+                    height: 0,
+                    opacity: 0,
+                    duration: 0.35,
+                    ease: 'power3.inOut',
+                })
+                setMobileCategoryOpen(false)
             }
-        },
-        { scope: headerRef }
-    )
+        }, mobileMenuRef)
 
-    // Hamburger <-> close morph, independent of whether the panel is mounted.
-    useGSAP(
-        () => {
-            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-            const duration = reduce ? 0 : 0.35
+        return () => ctx.revert()
+    }, [menuOpen])
 
-            gsap.to(barTopRef.current, { rotate: open ? 45 : 0, y: open ? 6 : 0, duration, ease: 'power2.inOut' })
-            gsap.to(barMidRef.current, { opacity: open ? 0 : 1, duration: reduce ? 0 : 0.2 })
-            gsap.to(barBottomRef.current, { rotate: open ? -45 : 0, y: open ? -6 : 0, duration, ease: 'power2.inOut' })
-        },
-        { dependencies: [open], scope: headerRef }
-    )
-
-    // Mobile panel entrance, staggered — only mounted while open.
-    useGSAP(
-        () => {
-            if (!open || !panelRef.current) return
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-            const links = panelLinksRef.current ? gsap.utils.toArray<HTMLElement>(panelLinksRef.current.children) : []
-            gsap.fromTo(panelRef.current, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' })
-            gsap.fromTo(links, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, stagger: 0.06, ease: 'power3.out', delay: 0.1 })
-        },
-        { dependencies: [open], scope: headerRef }
-    )
-
-    // Lock page scroll while the mobile panel is open.
+    /*
+     * Mobile categories accordion animation
+     */
     useEffect(() => {
-        document.documentElement.style.overflow = open ? 'hidden' : ''
-        return () => {
-            document.documentElement.style.overflow = ''
+        if (!mobileCategoryListRef.current) return
+
+        const ctx = gsap.context(() => {
+            if (mobileCategoryOpen) {
+                gsap.to(mobileCategoryListRef.current, {
+                    height: 'auto',
+                    opacity: 1,
+                    duration: 0.4,
+                    ease: 'power3.out',
+                })
+            } else {
+                gsap.to(mobileCategoryListRef.current, {
+                    height: 0,
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: 'power3.inOut',
+                })
+            }
+        }, mobileCategoryListRef)
+
+        return () => ctx.revert()
+    }, [mobileCategoryOpen])
+
+    const addMobileItem = (el: HTMLElement | null) => {
+        if (el && !mobileItemsRef.current.includes(el)) {
+            mobileItemsRef.current.push(el)
         }
-    }, [open])
-
-    // Close on Escape, and if the viewport grows past the mobile breakpoint. (Clicking a link
-    // inside the panel already closes it via its own onClick, below — no effect needed for that.)
-    useEffect(() => {
-        const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
-        window.addEventListener('keydown', onKey)
-        return () => window.removeEventListener('keydown', onKey)
-    }, [])
-
-    useEffect(() => {
-        const mql = window.matchMedia('(min-width: 768px)')
-        const onChange = (e: MediaQueryListEvent) => e.matches && setOpen(false)
-        mql.addEventListener('change', onChange)
-        return () => mql.removeEventListener('change', onChange)
-    }, [])
+    }
 
     return (
         <header
             ref={headerRef}
-            className={`sticky top-0 z-50 w-full border-b transition-[padding,box-shadow,background-color,border-color] duration-300 ${
-                scrolled
-                    ? 'border-champagne/50 bg-ivory/90 py-2 shadow-[0_1px_24px_rgba(72,12,20,0.08)] backdrop-blur-md'
-                    : 'border-transparent bg-ivory py-4'
-            }`}
+            className="
+                sticky md:fixed top-0 z-50
+                w-full
+                px-3 xs:px-4 sm:px-6 lg:px-8
+                pt-2 xs:py-3 sm:pt-4
+            "
         >
-            <div className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-10">
-                <Link ref={logoRef} href="/" aria-label="nimi — home" className="relative block w-[132px] shrink-0 sm:w-[152px]">
-                    <Image src={LOGO_SRC} alt="nimi" width={600} height={300} priority className="h-auto w-full object-contain" />
-                </Link>
+            {/* Mobile menu backdrop */}
+            <div
+                ref={mobileBackdropRef}
+                onClick={() => setMenuOpen(false)}
+                aria-hidden="true"
+                className="
+                    fixed
+                    inset-0
+                    z-40
+                    opacity-0
+                    pointer-events-none
+                    lg:hidden
+                "
+            />
 
-                <nav aria-label="Primary" className="hidden md:block">
-                    <ul ref={navRef} className="flex items-center gap-10">
-                        {NAV_LINKS.map((link) => (
-                            <li key={link.href}>
+            <div
+                className="
+                    relative
+                    mx-auto
+                    w-full
+                    max-w-7xl
+                    overflow-visible
+                    rounded-xl
+                    sm:rounded-2xl
+                    border border-champagne/30
+                    bg-ivory/90
+                    backdrop-blur-xl
+                    shadow-[0_10px_40px_rgba(72,12,20,0.07)]
+                "
+            >
+                {/* Main Header */}
+                <div className="flex h-16 sm:h-18 items-center justify-between px-3 xs:px-4 sm:px-6 lg:px-8">
+
+                    {/* Logo */}
+                    <Link
+                        href="/"
+                        aria-label="nimi home"
+                        className="group relative flex h-full items-center"
+                    >
+                        <div
+                            ref={logoRef}
+                            className="relative flex items-center"
+                        >
+                            <Image
+                                src="/logos/marron-name-logo-transparent-nimi.png"
+                                alt="nimi"
+                                width={150}
+                                height={150}
+                                priority
+                                className="
+                                    h-auto
+                                    w-20
+                                    xs:w-[92px]
+                                    sm:w-[105px]
+                                    lg:w-[120px]
+                                    object-contain
+                                    transition-transform
+                                    duration-500
+                                    group-hover:scale-[1.04]
+                                "
+                            />
+                        </div>
+                    </Link>
+
+                    {/* Desktop Navigation */}
+                    <nav
+                        ref={navRef}
+                        className="
+                            hidden
+                            lg:flex
+                            items-center
+                            gap-8
+                            xl:gap-10
+                            ml-auto
+                            mr-10
+                        "
+                    >
+                        {navItems.map((item) => (
+                            <div
+                                key={item.name}
+                                className="nav-item relative"
+                                onMouseEnter={() =>
+                                    item.dropdown && setCategoryOpen(true)
+                                }
+                                onMouseLeave={() =>
+                                    item.dropdown && setCategoryOpen(false)
+                                }
+                            >
                                 <Link
-                                    href={link.href}
-                                    aria-current={isActive(link.href) ? 'page' : undefined}
-                                    className={`group relative inline-block py-1 text-[11px] font-medium uppercase tracking-[0.28em] transition-colors ${
-                                        isActive(link.href) ? 'text-burgundy' : 'text-charcoal/80 hover:text-burgundy'
-                                    }`}
+                                    href={item.href}
+                                    className="
+                                        group
+                                        relative
+                                        flex
+                                        items-center
+                                        gap-1.5
+                                        py-2
+                                        text-[13px]
+                                        font-medium
+                                        tracking-[0.12em]
+                                        text-burgundy
+                                        uppercase
+                                    "
                                 >
-                                    {link.label}
+                                    <span>{item.name}</span>
+
+                                    {item.dropdown && (
+                                        <svg
+                                            width="12"
+                                            height="12"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            className="
+                                                transition-transform
+                                                duration-300
+                                                group-hover:rotate-180
+                                            "
+                                        >
+                                            <path d="m6 9 6 6 6-6" />
+                                        </svg>
+                                    )}
+
+                                    {/* Animated underline */}
                                     <span
-                                        className={`absolute inset-x-0 -bottom-0.5 h-px origin-center bg-burgundy transition-transform duration-300 ${
-                                            isActive(link.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                                        }`}
+                                        className="
+                                            absolute
+                                            bottom-0
+                                            left-0
+                                            h-px
+                                            w-full
+                                            origin-left
+                                            scale-x-0
+                                            bg-champagne
+                                            transition-transform
+                                            duration-500
+                                            ease-out
+                                            group-hover:scale-x-100
+                                        "
                                     />
                                 </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </nav>
 
-                <button
-                    type="button"
-                    onClick={() => setOpen((v) => !v)}
-                    aria-label={open ? 'Close menu' : 'Open menu'}
-                    aria-expanded={open}
-                    aria-controls="mobile-nav"
-                    className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] md:hidden"
-                >
-                    <span ref={barTopRef} className="block h-px w-6 bg-charcoal" />
-                    <span ref={barMidRef} className="block h-px w-6 bg-charcoal" />
-                    <span ref={barBottomRef} className="block h-px w-6 bg-charcoal" />
-                </button>
-            </div>
-
-            {open && (
-                <div
-                    id="mobile-nav"
-                    ref={panelRef}
-                    className="fixed inset-x-0 top-full z-40 flex max-h-[80dvh] flex-col overflow-y-auto border-t border-champagne/40 bg-ivory px-6 py-10 shadow-lg md:hidden"
-                >
-                    <nav aria-label="Mobile">
-                        <ul ref={panelLinksRef} className="flex flex-col gap-6">
-                            {NAV_LINKS.map((link) => (
-                                <li key={link.href}>
-                                    <Link
-                                        href={link.href}
-                                        onClick={() => setOpen(false)}
-                                        aria-current={isActive(link.href) ? 'page' : undefined}
-                                        className={`font-heading text-3xl ${isActive(link.href) ? 'text-burgundy' : 'text-charcoal'}`}
+                                {/* Categories Dropdown */}
+                                {item.dropdown && categoryOpen && (
+                                    <div
+                                        className="
+                                            absolute
+                                            left-1/2
+                                            top-full
+                                            w-64
+                                            -translate-x-1/2
+                                            pt-4
+                                        "
                                     >
-                                        {link.label}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
+                                        <div
+                                            className="
+                                                overflow-hidden
+                                                rounded-xl
+                                                border
+                                                border-champagne/30
+                                                bg-white
+                                                p-2
+                                                shadow-[0_20px_50px_rgba(72,12,20,0.12)]
+                                            "
+                                        >
+                                            {categories.map((category) => (
+                                                <Link
+                                                    key={category.name}
+                                                    href={category.href}
+                                                    className="
+                                                        block
+                                                        rounded-lg
+                                                        px-4
+                                                        py-3
+                                                        text-sm
+                                                        text-charcoal
+                                                        transition-all
+                                                        duration-300
+                                                        hover:bg-ivory
+                                                        hover:pl-5
+                                                        hover:text-burgundy
+                                                    "
+                                                >
+                                                    {category.name}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
                     </nav>
+
+
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setMenuOpen(!menuOpen)}
+                        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                        aria-expanded={menuOpen}
+                        className="
+                            relative
+                            flex
+                            h-10
+                            w-10
+                            xs:h-11
+                            xs:w-11
+                            shrink-0
+                            flex-col
+                            items-center
+                            justify-center
+                            gap-1.5
+                            rounded-full
+                            border
+                            border-champagne/40
+                            text-burgundy
+                            transition-colors
+                            duration-300
+                            active:bg-champagne/10
+                            lg:hidden
+                        "
+                    >
+                        <span
+                            className={`
+                                block
+                                h-px
+                                w-5
+                                bg-current
+                                transition-all
+                                duration-300
+                                ${menuOpen
+                                    ? 'translate-y-[4px] rotate-45'
+                                    : ''
+                                }
+                            `}
+                        />
+
+                        <span
+                            className={`
+                                block
+                                h-px
+                                w-5
+                                bg-current
+                                transition-all
+                                duration-300
+                                ${menuOpen
+                                    ? '-translate-y-[3px] -rotate-45'
+                                    : ''
+                                }
+                            `}
+                        />
+                    </button>
                 </div>
-            )}
+
+                {/* Mobile Navigation */}
+                <div
+                    ref={mobileMenuRef}
+                    className="
+                        absolute
+                        left-0
+                        right-0
+                        top-full
+                        z-10
+                        h-0
+                        overflow-hidden
+                        rounded-b-xl
+                        sm:rounded-b-2xl
+                        border-x
+                        border-b
+                        border-champagne/30
+                        bg-ivory
+                        opacity-0
+                        shadow-[0_20px_50px_rgba(72,12,20,0.15)]
+                        lg:hidden
+                    "
+                >
+                    <div
+                        className="
+                            max-h-[calc(100vh-6rem)]
+                            overflow-y-auto
+                            border-t
+                            border-champagne/20
+                            px-4
+                            xs:px-5
+                            pb-5
+                            pt-2
+                        "
+                    >
+                        {navItems.map((item) =>
+                            item.dropdown ? (
+                                <div
+                                    key={item.name}
+                                    ref={(el) => addMobileItem(el)}
+                                    className="border-b border-champagne/15"
+                                >
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setMobileCategoryOpen(
+                                                (prev) => !prev
+                                            )
+                                        }
+                                        aria-expanded={mobileCategoryOpen}
+                                        className="
+                                            flex
+                                            w-full
+                                            items-center
+                                            justify-between
+                                            py-4
+                                            text-sm
+                                            font-medium
+                                            tracking-[0.12em]
+                                            text-burgundy
+                                            uppercase
+                                        "
+                                    >
+                                        <span>{item.name}</span>
+
+                                        <svg
+                                            width="14"
+                                            height="14"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            className={`
+                                                shrink-0
+                                                text-champagne
+                                                transition-transform
+                                                duration-300
+                                                ${mobileCategoryOpen
+                                                    ? 'rotate-180'
+                                                    : ''
+                                                }
+                                            `}
+                                        >
+                                            <path d="m6 9 6 6 6-6" />
+                                        </svg>
+                                    </button>
+
+                                    <div
+                                        ref={mobileCategoryListRef}
+                                        className="h-0 overflow-hidden opacity-0"
+                                    >
+                                        <div className="flex flex-col gap-1 pb-3 pl-2">
+                                            {categories.map((category) => (
+                                                <Link
+                                                    key={category.name}
+                                                    href={category.href}
+                                                    onClick={() =>
+                                                        setMenuOpen(false)
+                                                    }
+                                                    className="
+                                                        rounded-lg
+                                                        px-3
+                                                        py-2.5
+                                                        text-sm
+                                                        text-taupe
+                                                        transition-all
+                                                        duration-300
+                                                        active:bg-ivory
+                                                        active:text-burgundy
+                                                    "
+                                                >
+                                                    {category.name}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <Link
+                                    key={item.name}
+                                    ref={(el) => addMobileItem(el)}
+                                    href={item.href}
+                                    onClick={() => setMenuOpen(false)}
+                                    className="
+                                        flex
+                                        items-center
+                                        justify-between
+                                        border-b
+                                        border-champagne/15
+                                        py-4
+                                        text-sm
+                                        font-medium
+                                        tracking-[0.12em]
+                                        text-burgundy
+                                        uppercase
+                                    "
+                                >
+                                    <span>{item.name}</span>
+
+                                    <span className="text-champagne">
+                                        →
+                                    </span>
+                                </Link>
+                            )
+                        )}
+
+                    </div>
+                </div>
+            </div>
         </header>
     )
 }
