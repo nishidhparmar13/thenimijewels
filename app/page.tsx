@@ -7,7 +7,7 @@ import CategoriesView from './components/Categories/CategoriesView'
 const Home = () => {
   return (
     <div>
-      {/* <Loader /> */}
+      <Loader />
       <Header />
       <HeroCarousel />
       <CategoriesView />
