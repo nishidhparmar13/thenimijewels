@@ -1,26 +1,52 @@
 @import "tailwindcss";
 
+/* nimi brand palette — deep burgundy jewellery brand, ivory ground, champagne accents. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-burgundy: #480c14; /* Deep Burgundy — primary brand colour */
+  --color-wine: #650f1c; /* Wine Maroon — secondary / hover states */
+  --color-champagne: #d8c2a5; /* Soft Champagne — premium accents, borders, icons */
+  --color-ivory: #faf7f2; /* Warm Ivory — main background */
+  --color-white: #ffffff; /* Pure White — cards, clean sections */
+  --color-charcoal: #242124; /* Charcoal — body text */
+  --color-taupe: #8a7d78; /* Muted Taupe — secondary text / descriptions */
+
+  --background: var(--color-ivory);
+  --foreground: var(--color-charcoal);
 }
 
 @theme inline {
+  /* Semantic aliases used throughout the app */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-primary: var(--color-burgundy);
+  --color-secondary: var(--color-wine);
+  --color-accent: var(--color-champagne);
+  --color-muted: var(--color-taupe);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Raw palette, exposed as bg-burgundy / text-champagne / border-ivory etc. */
+  --color-burgundy: var(--color-burgundy);
+  --color-wine: var(--color-wine);
+  --color-champagne: var(--color-champagne);
+  --color-ivory: var(--color-ivory);
+  --color-white: var(--color-white);
+  --color-charcoal: var(--color-charcoal);
+  --color-taupe: var(--color-taupe);
+
+  /* Fonts, sourced from next/font variables set in app/layout.tsx */
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
 }

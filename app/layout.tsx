@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Headings — elegant, editorial serif that matches the nimi logo.
+const cormorantGaramond = Cormorant_Garamond({
+  variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Body / UI — clean sans-serif for navigation, buttons, product info.
+const montserrat = Montserrat({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
@@ -21,9 +24,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${cormorantGaramond.variable} ${montserrat.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-background text-foreground font-body">
+        {children}
+      </body>
     </html>
   );
 }
