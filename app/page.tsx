@@ -1,11 +1,11 @@
 import React from 'react'
-import Loading from './components/Loading/Loading'
 import Header from './components/Header/Header'
+import Loader from './components/Loaders/Loader'
 
 const Home = () => {
   return (
     <div>
-      <Loading />
+      <Loader />
       <Header />
     </div>
   )

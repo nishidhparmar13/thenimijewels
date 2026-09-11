@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React, { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
-const Loading = () => {
+const Loader = () => {
     const containerRef = useRef<HTMLDivElement>(null)
     const logoRef = useRef<HTMLDivElement>(null)
     const glowRef = useRef<HTMLDivElement>(null)
@@ -545,4 +545,4 @@ const Loading = () => {
     )
 }
 
-export default Loading
+export default Loader
