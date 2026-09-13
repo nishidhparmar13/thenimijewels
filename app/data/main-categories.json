@@ -1,0 +1,20 @@
+[
+    {
+        "title": "Earrings",
+        "slug": "earrings",
+        "description": "Jhumkas, studs and statement drops",
+        "image": "/main-categories/earing.png"
+    },
+    {
+        "title": "Necklaces",
+        "slug": "necklaces",
+        "description": "Chokers, layered chains and pendants",
+        "image": "/main-categories/neckless.png"
+    },
+    {
+        "title": "Rings",
+        "slug": "rings",
+        "description": "Everyday bands to cocktail statements",
+        "image": "/main-categories/ring.png"
+    }
+]
