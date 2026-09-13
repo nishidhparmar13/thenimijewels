@@ -1,0 +1,74 @@
+[
+    {
+        "name": "Multi colour Jhumkha",
+        "amount": 79,
+        "image": [
+            "/categories/earings/NIMI-EAR-001/1.png",
+            "/categories/earings/NIMI-EAR-001/2.png"
+        ],
+        "ref_no": "NIMI-EAR-001",
+        "discount_amount": 0,
+        "type": "oxidise",
+        "label": ""
+    },
+    {
+        "name": "Oxidised Teardrop Jhumkha",
+        "amount": 99,
+        "image": [
+            "/categories/earings/NIMI-EAR-002/1.png",
+            "/categories/earings/NIMI-EAR-002/2.png"
+        ],
+        "ref_no": "NIMI-EAR-002",
+        "discount_amount": 0,
+        "type": "oxidise",
+        "label": ""
+    },
+    {
+        "name": "Trishul Jhumkha",
+        "amount": 119,
+        "image": [
+            "/categories/earings/NIMI-EAR-003/1.png",
+            "/categories/earings/NIMI-EAR-003/2.png"
+        ],
+        "ref_no": "NIMI-EAR-003",
+        "discount_amount": 0,
+        "type": "oxidise",
+        "label": ""
+    },
+    {
+        "name": "Radha Krishna Jhumkha",
+        "amount": 129,
+        "image": [
+            "/categories/earings/NIMI-EAR-004/1.png",
+            "/categories/earings/NIMI-EAR-004/2.png"
+        ],
+        "ref_no": "NIMI-EAR-004",
+        "discount_amount": 0,
+        "type": "oxidise",
+        "label": ""
+    },
+    {
+        "name": "Peacock Butterfly Jhumkha",
+        "amount": 119,
+        "image": [
+            "/categories/earings/NIMI-EAR-005/1.png",
+            "/categories/earings/NIMI-EAR-005/2.png"
+        ],
+        "ref_no": "NIMI-EAR-005",
+        "discount_amount": 0,
+        "type": "oxidise",
+        "label": ""
+    },
+    {
+        "name": "Dome shape Jhumkha",
+        "amount": 99,
+        "image": [
+            "/categories/earings/NIMI-EAR-006/1.png",
+            "/categories/earings/NIMI-EAR-006/2.png"
+        ],
+        "ref_no": "NIMI-EAR-006",
+        "discount_amount": 0,
+        "type": "oxidise",
+        "label": ""
+    }
+]
