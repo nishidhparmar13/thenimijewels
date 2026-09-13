@@ -449,7 +449,7 @@ const CategoryView = ({
                             ${pending ? 'pointer-events-none' : ''}
                             grid
                             auto-rows-fr
-                            grid-cols-2
+                            grid-cols-1
                             gap-4
                             sm:gap-6
                             lg:grid-cols-4

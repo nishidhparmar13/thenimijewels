@@ -25,7 +25,7 @@
     },
     {
         "name": "Trishul Jhumkha",
-        "amount": 119,
+        "amount": 99,
         "image": [
             "/categories/earings/NIMI-EAR-003/1.png",
             "/categories/earings/NIMI-EAR-003/2.png"
@@ -37,13 +37,13 @@
     },
     {
         "name": "Radha Krishna Jhumkha",
-        "amount": 129,
+        "amount": 149,
         "image": [
             "/categories/earings/NIMI-EAR-004/1.png",
             "/categories/earings/NIMI-EAR-004/2.png"
         ],
         "ref_no": "NIMI-EAR-004",
-        "discount_amount": 0,
+        "discount_amount": 20,
         "type": "oxidise",
         "label": ""
     },
@@ -70,5 +70,77 @@
         "discount_amount": 0,
         "type": "oxidise",
         "label": ""
+    },
+    {
+        "name": "Red & green diamond pattern",
+        "amount": 179,
+        "image": [
+            "/categories/earings/NIMI-EAR-007/1.png",
+            "/categories/earings/NIMI-EAR-007/2.png"
+        ],
+        "ref_no": "NIMI-EAR-007",
+        "discount_amount": 30,
+        "type": "oxidise",
+        "label": "trending"
+    },
+    {
+        "name": "Radha Krishna Jhumkha",
+        "amount": 219,
+        "image": [
+            "/categories/earings/NIMI-EAR-008/1.png",
+            "/categories/earings/NIMI-EAR-008/2.png"
+        ],
+        "ref_no": "NIMI-EAR-008",
+        "discount_amount": 20,
+        "type": "oxidise",
+        "label": ""
+    },
+    {
+        "name": "Vrindavan Heritage",
+        "amount": 219,
+        "image": [
+            "/categories/earings/NIMI-EAR-009/1.png",
+            "/categories/earings/NIMI-EAR-009/2.png"
+        ],
+        "ref_no": "NIMI-EAR-009",
+        "discount_amount": 20,
+        "type": "oxidise",
+        "label": "trending"
+    },
+    {
+        "name": "Boho Chandbalis",
+        "amount": 179,
+        "image": [
+            "/categories/earings/NIMI-EAR-010/1.png",
+            "/categories/earings/NIMI-EAR-010/2.png"
+        ],
+        "ref_no": "NIMI-EAR-010",
+        "discount_amount": 0,
+        "type": "oxidise",
+        "label": ""
+    },
+    {
+        "name": "Kashmiri",
+        "amount": 219,
+        "image": [
+            "/categories/earings/NIMI-EAR-011/1.png",
+            "/categories/earings/NIMI-EAR-011/2.png"
+        ],
+        "ref_no": "NIMI-EAR-011",
+        "discount_amount": 40,
+        "type": "oxidise",
+        "label": "trending"
+    },
+    {
+        "name": "Red & green peacock",
+        "amount": 199,
+        "image": [
+            "/categories/earings/NIMI-EAR-012/1.png",
+            "/categories/earings/NIMI-EAR-012/2.png"
+        ],
+        "ref_no": "NIMI-EAR-012",
+        "discount_amount": 20,
+        "type": "oxidise",
+        "label": "trending"
     }
 ]
