@@ -95,3 +95,78 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-burgundy);
 }
+/* -------------------------------------------------------------
+   Hero carousel (app/components/heroes/HeroCarousel.tsx)
+   Swiper ships unstyled bullets; these match the nimi palette.
+   ------------------------------------------------------------- */
+.hero-swiper .swiper-pagination {
+  bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.hero-swiper .swiper-pagination-bullet {
+  width: 1.5rem;
+  height: 2px;
+  margin: 0 !important;
+  border-radius: 999px;
+  background: var(--color-ivory);
+  opacity: 0.5;
+  transition: width 0.4s ease, opacity 0.4s ease, background-color 0.4s ease;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  width: 2.75rem;
+  opacity: 1;
+  background: var(--color-champagne);
+}
+
+@media (min-width: 640px) {
+  .hero-swiper .swiper-pagination {
+    bottom: 1.5rem;
+  }
+}
+
+/* Slow Ken Burns drift on the banner that's currently showing. */
+.hero-swiper__image {
+  transform: scale(1.06);
+  transition: transform 6s ease-out;
+}
+
+.hero-swiper .swiper-slide-active .hero-swiper__image {
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-swiper__image,
+  .hero-swiper .swiper-slide-active .hero-swiper__image {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* -------------------------------------------------------------
+   Category filter loading bar (app/page-components/EarringsView.tsx)
+   ------------------------------------------------------------- */
+@keyframes filter-loading-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+.filter-loading-bar {
+  animation: filter-loading-sweep 0.9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filter-loading-bar {
+    animation: none;
+    width: 100%;
+  }
+}

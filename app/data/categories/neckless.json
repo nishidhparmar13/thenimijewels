@@ -1,0 +1,98 @@
+[
+    {
+        "name": "Classic Oxidised Choker",
+        "amount": 1899,
+        "image": [
+            "/products/necklaces/classic-oxidised-choker-1.png",
+            "/products/necklaces/classic-oxidised-choker-2.png"
+        ],
+        "ref_no": "NIMI-NEC-001",
+        "discount_amount": 299,
+        "type": "oxidise",
+        "label": "trending"
+    },
+    {
+        "name": "Temple Oxidised Necklace",
+        "amount": 2299,
+        "image": [
+            "/products/necklaces/temple-oxidised-necklace-1.png",
+            "/products/necklaces/temple-oxidised-necklace-2.png"
+        ],
+        "ref_no": "NIMI-NEC-002",
+        "discount_amount": 349,
+        "type": "oxidise",
+        "label": "bestseller"
+    },
+    {
+        "name": "Floral Oxidised Pendant",
+        "amount": 1199,
+        "image": [
+            "/products/necklaces/floral-oxidised-pendant-1.png",
+            "/products/necklaces/floral-oxidised-pendant-2.png"
+        ],
+        "ref_no": "NIMI-NEC-003",
+        "discount_amount": 199,
+        "type": "oxidise",
+        "label": "new"
+    },
+    {
+        "name": "Layered Oxidised Chain",
+        "amount": 1699,
+        "image": [
+            "/products/necklaces/layered-oxidised-chain-1.png",
+            "/products/necklaces/layered-oxidised-chain-2.png"
+        ],
+        "ref_no": "NIMI-NEC-004",
+        "discount_amount": 249,
+        "type": "oxidise",
+        "label": "trending"
+    },
+    {
+        "name": "Peacock Oxidised Haar",
+        "amount": 2599,
+        "image": [
+            "/products/necklaces/peacock-oxidised-haar-1.png",
+            "/products/necklaces/peacock-oxidised-haar-2.png"
+        ],
+        "ref_no": "NIMI-NEC-005",
+        "discount_amount": 399,
+        "type": "oxidise",
+        "label": "bestseller"
+    },
+    {
+        "name": "Minimal Oxidised Pendant",
+        "amount": 899,
+        "image": [
+            "/products/necklaces/minimal-oxidised-pendant-1.png",
+            "/products/necklaces/minimal-oxidised-pendant-2.png"
+        ],
+        "ref_no": "NIMI-NEC-006",
+        "discount_amount": 99,
+        "type": "oxidise",
+        "label": "new"
+    },
+    {
+        "name": "Heritage Oxidised Choker",
+        "amount": 2099,
+        "image": [
+            "/products/necklaces/heritage-oxidised-choker-1.png",
+            "/products/necklaces/heritage-oxidised-choker-2.png"
+        ],
+        "ref_no": "NIMI-NEC-007",
+        "discount_amount": 299,
+        "type": "oxidise",
+        "label": "trending"
+    },
+    {
+        "name": "Statement Oxidised Necklace",
+        "amount": 2799,
+        "image": [
+            "/products/necklaces/statement-oxidised-necklace-1.png",
+            "/products/necklaces/statement-oxidised-necklace-2.png"
+        ],
+        "ref_no": "NIMI-NEC-008",
+        "discount_amount": 449,
+        "type": "oxidise",
+        "label": "bestseller"
+    }
+]

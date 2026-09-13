@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import "./globals.css";
+import Header from "./components/headers/Header";
+import Footer from "./components/footers/Footer";
+import Loader from "./components/loaders/Loader";
 
 // Headings — elegant, editorial serif that matches the nimi logo.
 const cormorantGaramond = Cormorant_Garamond({
@@ -27,7 +30,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${cormorantGaramond.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-body">
+        <Loader />
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
