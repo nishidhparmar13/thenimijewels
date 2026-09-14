@@ -9,10 +9,12 @@
 /** One entry from app/data/categories/*.json */
 export interface Product {
     name: string
+    description?: string
     amount: number
     image: string[]
     ref_no: string
     discount_amount: number
+    discount_description?: string
     type: string
     label: string
 }

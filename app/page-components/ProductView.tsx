@@ -316,16 +316,15 @@ const ProductView = ({
 
                             </div>
 
-                            {/* <p
-                                data-product-detail
-                                className="mt-6 text-sm leading-relaxed text-taupe sm:text-base"
-                            >
-                                A hand-finished piece from our{' '}
-                                {categoryTitle.toLowerCase()} range — light
-                                enough to forget you&apos;re wearing it, with
-                                the kind of detailing that gets noticed across
-                                a room.
-                            </p> */}
+                            {/* Only shown when the JSON entry has one. */}
+                            {product.description?.trim() && (
+                                <p
+                                    data-product-detail
+                                    className="mt-6 whitespace-pre-line text-sm leading-relaxed text-taupe sm:text-base"
+                                >
+                                    {product.description.trim()}
+                                </p>
+                            )}
 
                             {/* ---- CTAs ---- */}
                             <div

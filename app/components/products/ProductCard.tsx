@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 
 import { finalPrice, formatPrice, type Product } from './product'
 
@@ -27,6 +27,39 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
     const [thumbFailed, setThumbFailed] = useState(false)
     const [altFailed, setAltFailed] = useState(false)
+
+    // Name marquee: measure the text against its box and only animate
+    // when it genuinely doesn't fit on one line.
+    const nameBoxRef = useRef<HTMLHeadingElement>(null)
+    const [nameOverflows, setNameOverflows] = useState(false)
+    const [marqueeDuration, setMarqueeDuration] = useState('8s')
+
+    useEffect(() => {
+        const box = nameBoxRef.current
+        if (!box) return
+
+        // Width of the name alone, measured off-layout so it works
+        // whichever branch (static or marquee) is currently rendered.
+        const measure = () => {
+            const probe = document.createElement('span')
+            probe.textContent = product.name
+            probe.style.cssText =
+                'position:absolute;visibility:hidden;white-space:nowrap;'
+            box.appendChild(probe)
+            const textWidth = probe.offsetWidth
+            probe.remove()
+
+            const overflows = textWidth > box.clientWidth + 1
+            setNameOverflows(overflows)
+            // Constant reading speed (~40px/s) regardless of name length.
+            if (overflows) setMarqueeDuration(`${Math.max((textWidth + 40) / 40, 4)}s`)
+        }
+
+        measure()
+        const observer = new ResizeObserver(measure)
+        observer.observe(box)
+        return () => observer.disconnect()
+    }, [product.name])
 
     const thumb = product.image[0]
     const alt = product.image[1]
@@ -153,24 +186,35 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
             {/* ---- Details ---- */}
             <div className="flex flex-1 flex-col p-3 sm:p-5">
-                {/* Clamped to two lines so every card in a row is the
-                    same height, however long the name runs. */}
+                {/* Always one line so every card in a row is the same
+                    height. A name too long to fit scrolls right-to-left
+                    instead of being cut off. */}
                 <h3
+                    ref={nameBoxRef}
                     title={product.name}
                     className="
-                        line-clamp-2
-                        min-h-[2.5rem]
+                        overflow-hidden
+                        whitespace-nowrap
                         font-heading
                         text-base
                         leading-snug
                         text-burgundy
-                        break-words
-                        hyphens-auto
-                        sm:min-h-[3.25rem]
                         sm:text-xl
                     "
                 >
-                    {product.name}
+                    {nameOverflows ? (
+                        <span
+                            className="product-name-marquee inline-flex"
+                            style={{ '--marquee-duration': marqueeDuration } as CSSProperties}
+                        >
+                            <span className="pr-10">{product.name}</span>
+                            <span aria-hidden="true" className="pr-10">
+                                {product.name}
+                            </span>
+                        </span>
+                    ) : (
+                        product.name
+                    )}
                 </h3>
 
                 <p className="mt-1 text-[9px] uppercase tracking-[0.12em] text-taupe sm:text-[10px] sm:tracking-[0.16em]">
@@ -196,6 +240,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         </>
                     )}
                 </div>
+
+                {hasDiscount && (
+                    <p className="mt-1.5 text-[9px] italic tracking-[0.04em] text-wine sm:text-[11px]">
+                        Discount till 24-09-2026
+
+                    </p>
+                )}
             </div>
 
             {/* Whole tile is the link. An overlay anchor keeps the markup

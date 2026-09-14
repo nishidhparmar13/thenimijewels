@@ -170,3 +170,32 @@ body {
     width: 100%;
   }
 }
+
+/* -------------------------------------------------------------
+   Product name marquee (app/components/products/ProductCard.tsx)
+   The track holds two identical copies, so sliding it by half its
+   width lands exactly where it started — a seamless loop.
+   ------------------------------------------------------------- */
+@keyframes product-name-marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.product-name-marquee {
+  animation: product-name-marquee var(--marquee-duration, 8s) linear infinite;
+}
+
+.group:hover .product-name-marquee {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-name-marquee {
+    animation: none;
+  }
+}
