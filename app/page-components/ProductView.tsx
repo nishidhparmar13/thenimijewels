@@ -63,6 +63,9 @@ const ProductView = ({
     // details first and the customer pastes them into the chat. The page
     // link makes Instagram show the product image as a preview.
     const enquiry = `https://ig.me/m/thenimijewels`
+    // Inside Instagram's in-app browser, ig.me loads the Instagram website
+    // (slow). The app's own URL scheme jumps straight to the native profile.
+    const enquiryInApp = `instagram://user?username=thenimijewels`
     const [copied, setCopied] = useState(false)
     const [inInstagramApp, setInInstagramApp] = useState(false)
 
@@ -512,7 +515,7 @@ const ProductView = ({
                         </p>
 
                         <a
-                            href={enquiry}
+                            href={inInstagramApp ? enquiryInApp : enquiry}
                             // Inside Instagram's in-app browser a new tab spins
                             // up a fresh webview that loads ig.me as a web page
                             // (slow); same-tab lets Instagram open the DM natively.
