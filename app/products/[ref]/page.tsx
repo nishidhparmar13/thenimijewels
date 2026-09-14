@@ -21,11 +21,26 @@ export const generateMetadata = async ({
 
     if (!entry) return { title: 'Product not found | nimi' }
 
+    const title = `${entry.product.name} | nimi`
+    const description = `${entry.product.name} (${entry.product.ref_no}) — ${formatPrice(
+        finalPrice(entry.product),
+    )}. Hand-finished ${entry.categoryTitle.toLowerCase()} in skin-kind, anti-tarnish metal.`
+
     return {
-        title: `${entry.product.name} | nimi`,
-        description: `${entry.product.name} (${entry.product.ref_no}) — ${formatPrice(
-            finalPrice(entry.product),
-        )}. Hand-finished ${entry.categoryTitle.toLowerCase()} in skin-kind, anti-tarnish metal.`,
+        title,
+        description,
+        // The link preview shown when the order message is pasted into a chat.
+        openGraph: {
+            title,
+            description,
+            url: `/products/${entry.product.ref_no.toLowerCase()}`,
+            siteName: 'nimi',
+            type: 'website',
+            images: entry.product.image.slice(0, 1).map((url) => ({
+                url,
+                alt: entry.product.name,
+            })),
+        },
     }
 }
 

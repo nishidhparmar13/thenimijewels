@@ -13,7 +13,7 @@ const NecklacesPage = () => {
     return (
         <CategoryView
             title="Necklaces"
-            description="Chokers, layered chains and temple pendants — weighted to sit beautifully, finished in skin-kind, anti-tarnish metal."
+            description="Chokers and temple pendants. Weighted to sit beautifully."
             products={necklaces as Product[]}
         />
     )

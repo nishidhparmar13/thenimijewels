@@ -13,7 +13,7 @@ const RingsPage = () => {
     return (
         <CategoryView
             title="Rings"
-            description="Everyday bands, adjustable stacks and cocktail statements — sized to be forgiving, finished in skin-kind, anti-tarnish metal."
+            description="Statement rings and everyday stacks. Thoughtfully designed to add a little soul to every look."
             products={rings as Product[]}
         />
     )

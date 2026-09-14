@@ -257,8 +257,7 @@ const MainCategories = () => {
                         data-cat-head
                         className="mt-5 text-sm leading-relaxed text-taupe sm:text-base"
                     >
-                        Handpicked pieces for every mood — from everyday
-                        essentials to heirlooms worth passing on.
+                        Discover jewellery made for every mood, moment & celebration. From everyday favourites to festive statement pieces, find the perfect piece to make every chapter a little more beautiful.
                     </p>
                 </div>
 
@@ -387,12 +386,12 @@ const MainCategories = () => {
                                         {category.title}
                                     </h3>
 
-                                    <p
+                                    {/* <p
                                         data-card-desc
                                         className="mt-1 text-xs text-ivory/70 sm:text-sm"
                                     >
                                         {category.description}
-                                    </p>
+                                    </p> */}
 
                                     <span
                                         data-card-cta

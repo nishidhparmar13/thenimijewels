@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -26,15 +26,15 @@ const labelStyles: Record<string, string> = {
 const details = [
     {
         title: 'Materials',
-        copy: 'Anti-tarnish, nickel-free alloy with an oxidised finish. Hypoallergenic posts and fittings.',
+        copy: 'Oxidised',
     },
     {
         title: 'Care',
-        copy: 'Keep away from perfume and water. Wipe with a dry cloth and store in the pouch it arrives in.',
+        copy: 'Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use.',
     },
     {
         title: 'Shipping & returns',
-        copy: 'Dispatched in 2–3 working days. Easy 7-day returns on unworn pieces in original packaging.',
+        copy: 'Shipping charges are calculated based on your delivery location. Orders are dispatched within 2–3 working days.',
     },
 ]
 
@@ -59,10 +59,47 @@ const ProductView = ({
         ? Math.round((product.discount_amount / product.amount) * 100)
         : 0
 
-    // Pre-filled enquiry, since there's no cart yet.
-    const enquiry = `https://wa.me/?text=${encodeURIComponent(
-        `Hi nimi! I'd like to know more about ${product.name} (${product.ref_no}).`,
-    )}`
+    // Instagram DMs can't be pre-filled, so the order button copies the
+    // details first and the customer pastes them into the chat. The page
+    // link makes Instagram show the product image as a preview.
+    const enquiry = `https://ig.me/m/thenimijewels`
+    const [copied, setCopied] = useState(false)
+
+    const copyOrderDetails = () => {
+        const message = [
+            `Hi nimi, I'd like to order:`,
+            `${product.name}`,
+            `Ref: ${product.ref_no}`,
+            `Price: ${formatPrice(price)}`,
+            `${window.location.origin}/products/${product.ref_no.toLowerCase()}`,
+        ].join('\n')
+
+        const fallback = () => {
+            const textarea = document.createElement('textarea')
+            textarea.value = message
+            textarea.setAttribute('readonly', '')
+            textarea.style.position = 'fixed'
+            textarea.style.opacity = '0'
+            document.body.appendChild(textarea)
+            textarea.select()
+            document.execCommand('copy')
+            textarea.remove()
+        }
+
+        if (navigator.clipboard?.writeText) {
+            navigator.clipboard.writeText(message).catch(fallback)
+        } else {
+            fallback()
+        }
+
+        setCopied(true)
+    }
+
+    useEffect(() => {
+        if (!copied) return
+        const timer = setTimeout(() => setCopied(false), 4000)
+        return () => clearTimeout(timer)
+    }, [copied])
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -269,7 +306,7 @@ const ProductView = ({
                                 <span className="h-1.5 w-1.5 rotate-45 bg-champagne" />
                             </div>
 
-                            <p
+                            {/* <p
                                 data-product-detail
                                 className="mt-6 text-sm leading-relaxed text-taupe sm:text-base"
                             >
@@ -278,7 +315,7 @@ const ProductView = ({
                                 enough to forget you&apos;re wearing it, with
                                 the kind of detailing that gets noticed across
                                 a room.
-                            </p>
+                            </p> */}
 
                             {/* ---- CTAs ---- */}
                             <div
@@ -289,6 +326,7 @@ const ProductView = ({
                                     href={enquiry}
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    onClick={copyOrderDetails}
                                     className="
                                         group
                                         inline-flex items-center justify-center gap-3
@@ -306,7 +344,7 @@ const ProductView = ({
                                         hover:shadow-[0_16px_40px_rgba(72,12,20,0.35)]
                                     "
                                 >
-                                    Enquire to buy
+                                    Copy details &amp; order
                                     <span
                                         aria-hidden="true"
                                         className="transition-transform duration-300 group-hover:translate-x-1"
@@ -334,6 +372,16 @@ const ProductView = ({
                                     All {categoryTitle}
                                 </Link>
                             </div>
+
+                            <p
+                                role="status"
+                                aria-live="polite"
+                                className="mt-5 min-h-5 text-sm font-semibold text-taupe"
+                            >
+                                {copied
+                                    ? 'Details copied paste them in the Instagram chat to place your order.'
+                                    : 'Tap “Copy details & order”, then paste it in our DM.'}
+                            </p>
 
                             {/* ---- Details list ---- */}
                             <dl className="mt-10 divide-y divide-champagne/40 border-y border-champagne/40">

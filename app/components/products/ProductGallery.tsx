@@ -74,7 +74,7 @@ const ProductGallery = ({ images, name }: ProductGalleryProps) => {
                 ref={frameRef}
                 className="
                     relative
-h-[750px]
+md:h-[750px] h-[400px]
                     w-full
                     overflow-hidden
                     rounded-2xl

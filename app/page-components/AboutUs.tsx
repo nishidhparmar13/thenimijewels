@@ -9,23 +9,25 @@ import { SplitText } from 'gsap/SplitText'
 
 gsap.registerPlugin(ScrollTrigger, SplitText)
 
-// Short, scannable promises — the three things the brand wants remembered.
 const values = [
     {
-        title: 'Handcrafted',
-        copy: 'Every piece is finished by hand, so no two are exactly alike.',
+        title: 'Thoughtfully Curated',
+        copy: 'Every piece is selected with care to bring you designs that feel unique and beautiful.',
     },
     {
-        title: 'Skin-kind metals',
-        copy: 'Anti-tarnish, nickel-free alloys that sit easy on sensitive skin.',
+        title: 'Made for Every Chapter',
+        copy: 'From everyday moments to festive celebrations, find jewellery that belongs in your story.',
     },
     {
-        title: 'Made to be worn',
-        copy: 'Designed for a Tuesday commute as much as a wedding sangeet.',
+        title: 'Affordable Luxury',
+        copy: "Beautiful jewellery shouldn't have to wait for a special occasion. Our pieces are made to be loved, worn and enjoyed.",
+    },
+    {
+        title: 'Jewellery with Soul',
+        copy: "Because the best pieces aren't just accessories. They become part of your memories, moments and stories.",
     },
 ]
 
-// Counters animate from 0 up to `value` when the row scrolls into view.
 const stats = [
     { value: 250, suffix: '+', label: 'Designs' },
     { value: 4800, suffix: '+', label: 'Happy customers' },
@@ -40,7 +42,7 @@ const AboutUs = () => {
             const mm = gsap.matchMedia()
 
             mm.add('(prefers-reduced-motion: no-preference)', () => {
-                // ---- Headline: word-by-word reveal ----
+                // Headline animation
                 const split = new SplitText('[data-about-title]', {
                     type: 'words',
                     wordsClass: 'inline-block',
@@ -59,7 +61,7 @@ const AboutUs = () => {
                     },
                 })
 
-                // ---- Supporting copy, values, CTA ----
+                // Supporting content animation
                 gsap.from('[data-about-fade]', {
                     y: 28,
                     opacity: 0,
@@ -73,10 +75,13 @@ const AboutUs = () => {
                     },
                 })
 
-                // ---- Image: masked wipe in, then a slow parallax drift ----
+                // Image reveal
                 gsap.fromTo(
                     '[data-about-frame]',
-                    { clipPath: 'inset(0% 0% 100% 0%)', opacity: 0 },
+                    {
+                        clipPath: 'inset(0% 0% 100% 0%)',
+                        opacity: 0,
+                    },
                     {
                         clipPath: 'inset(0% 0% 0% 0%)',
                         opacity: 1,
@@ -90,6 +95,7 @@ const AboutUs = () => {
                     },
                 )
 
+                // Image parallax
                 gsap.to('[data-about-photo]', {
                     yPercent: -12,
                     ease: 'none',
@@ -101,7 +107,7 @@ const AboutUs = () => {
                     },
                 })
 
-                // ---- Champagne outline that draws around the photo ----
+                // Champagne outline animation
                 gsap.from('[data-about-outline]', {
                     scale: 0.9,
                     opacity: 0,
@@ -114,11 +120,14 @@ const AboutUs = () => {
                     },
                 })
 
-                // ---- Stats count up ----
+                // Stats counter animation
                 gsap.utils
                     .toArray<HTMLElement>('[data-about-stat]')
                     .forEach((el) => {
-                        const target = Number(el.dataset.aboutStat ?? 0)
+                        const target = Number(
+                            el.dataset.aboutStat ?? 0,
+                        )
+
                         const counter = { n: 0 }
 
                         gsap.to(counter, {
@@ -177,7 +186,7 @@ const AboutUs = () => {
                 className="
                     relative mx-auto
                     grid max-w-7xl
-                    items-center
+                    items-start
                     gap-10
                     lg:grid-cols-2
                     lg:gap-16
@@ -185,7 +194,7 @@ const AboutUs = () => {
             >
                 {/* ---------------- Photo ---------------- */}
                 <div className="relative order-1 lg:order-none">
-                    {/* Offset champagne outline behind the photo */}
+                    {/* Champagne outline */}
                     <div
                         data-about-outline
                         aria-hidden="true"
@@ -200,7 +209,6 @@ const AboutUs = () => {
                     />
 
                     <div
-                        data-about-frame
                         className="
                             relative
                             aspect-4/5
@@ -214,16 +222,14 @@ const AboutUs = () => {
                     >
                         <Image
                             data-about-photo
-                            src="/main-categories/neckless.png"
+                            src="/categories/neckless/NIMI-NECK-004/2.png"
                             alt="A nimi necklace, hand-finished in our studio"
                             fill
                             sizes="(min-width: 1024px) 45vw, 100vw"
-                            // Taller than the frame so the parallax has room
-                            // to drift without exposing an edge.
                             className="scale-110 object-cover"
                         />
 
-                        <div
+                        {/* <div
                             aria-hidden="true"
                             className="
                                 absolute inset-0
@@ -231,7 +237,7 @@ const AboutUs = () => {
                                 from-burgundy/50
                                 to-transparent
                             "
-                        />
+                        /> */}
                     </div>
                 </div>
 
@@ -253,7 +259,7 @@ const AboutUs = () => {
                         About Us
                     </span>
 
-                    {/* overflow-hidden clips the words as they swing up */}
+                    {/* Main heading */}
                     <h2
                         id="about-heading"
                         className="mt-3 overflow-hidden py-1"
@@ -270,10 +276,11 @@ const AboutUs = () => {
                                 sm:text-5xl
                             "
                         >
-                            Jewels with soul, made for everyday chapters
+                            Jewellery with a story, made for your everyday chapters.
                         </span>
                     </h2>
 
+                    {/* Decorative divider */}
                     <div
                         data-about-fade
                         aria-hidden="true"
@@ -283,54 +290,105 @@ const AboutUs = () => {
                         <span className="h-1.5 w-1.5 rotate-45 bg-champagne" />
                     </div>
 
+                    {/* Intro */}
                     <p
                         data-about-fade
                         className="mt-5 text-sm leading-relaxed text-taupe sm:text-base"
                     >
-                        nimi began with a simple frustration — jewellery that
-                        looked beautiful in a photo, then turned your skin green
-                        by lunchtime. So we started making the pieces we wanted
-                        to wear: hand-finished, kind to skin, and priced so you
-                        can own more than one favourite.
+                        At <strong className="text-burgundy">nimi</strong>, we
+                        believe jewellery is more than something you wear. It
+                        is a little part of who you are.
                     </p>
 
                     <p
                         data-about-fade
                         className="mt-4 text-sm leading-relaxed text-taupe sm:text-base"
                     >
-                        Every design is drawn, sampled and quality-checked by a
-                        small team before it ever reaches you — because the
-                        piece you reach for on an ordinary Tuesday deserves as
-                        much care as the one you save for a wedding.
+                        We created nimi to bring you beautiful, expressive
+                        pieces that feel special without waiting for a special
+                        occasion. From everyday favourites to festive statement
+                        pieces, every design is chosen to add a little more soul
+                        to your look.
                     </p>
 
-                    {/* ---- Values ---- */}
-                    <ul className="mt-8 space-y-4">
-                        {values.map((value) => (
-                            <li
-                                key={value.title}
-                                data-about-fade
-                                className="flex gap-3"
-                            >
-                                <span
-                                    aria-hidden="true"
-                                    className="mt-2 h-1.5 w-1.5 shrink-0 rotate-45 bg-champagne"
-                                />
+                    <p
+                        data-about-fade
+                        className="mt-4 text-sm leading-relaxed text-taupe sm:text-base"
+                    >
+                        Our collections are thoughtfully curated with a love
+                        for detail, traditional inspiration and modern styling.
+                        so you can wear your jewellery your way, every day.
+                    </p>
 
-                                <span>
-                                    <span className="block text-sm font-medium text-burgundy">
-                                        {value.title}
-                                    </span>
-                                    <span className="mt-0.5 block text-xs leading-relaxed text-taupe sm:text-sm">
-                                        {value.copy}
-                                    </span>
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
-
-                    {/* ---- Stats ---- */}
+                    {/* Values */}
                     <div
+                        data-about-fade
+                        className="mt-8"
+                    >
+                        <h3 className="font-heading text-xl text-burgundy sm:text-2xl">
+                            What makes nimi special
+                        </h3>
+
+                        <ul className="mt-5 space-y-4">
+                            {values.map((value) => (
+                                <li
+                                    key={value.title}
+                                    className="flex gap-3"
+                                >
+                                    <span
+                                        aria-hidden="true"
+                                        className="
+                                            mt-2
+                                            h-1.5 w-1.5
+                                            shrink-0
+                                            rotate-45
+                                            bg-champagne
+                                        "
+                                    />
+
+                                    <span>
+                                        <span className="block text-sm font-medium text-burgundy">
+                                            {value.title}
+                                        </span>
+
+                                        <span className="mt-0.5 block text-xs leading-relaxed text-taupe sm:text-sm">
+                                            {value.copy}
+                                        </span>
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Our Promise */}
+                    <div
+                        data-about-fade
+                        className="
+                            mt-8
+                            rounded-2xl
+                            bg-ivory
+                            p-5
+                            sm:p-6
+                        "
+                    >
+                        <h3 className="font-heading text-xl text-burgundy sm:text-2xl">
+                            Our Promise
+                        </h3>
+
+                        <p className="mt-3 text-sm leading-relaxed text-taupe sm:text-base">
+                            We want every nimi piece to make you feel a little
+                            more <strong className="text-burgundy">you</strong>
+                            {' '}— confident, beautiful and ready for whatever
+                            your next chapter brings.
+                        </p>
+
+                        <p className="mt-4 font-heading text-lg text-burgundy">
+                            nimi — Jewels with Soul.
+                        </p>
+                    </div>
+
+                    {/* Stats */}
+                    {/* <div
                         data-about-stats
                         className="
                             mt-10
@@ -345,21 +403,20 @@ const AboutUs = () => {
                                 <p className="font-heading text-2xl text-burgundy sm:text-3xl">
                                     <span
                                         data-about-stat={stat.value}
-                                        // Rendered value is the fallback when
-                                        // JS or motion is unavailable.
                                     >
                                         {stat.value.toLocaleString('en-IN')}
                                     </span>
                                     {stat.suffix}
                                 </p>
+
                                 <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-taupe sm:text-xs">
                                     {stat.label}
                                 </p>
                             </div>
                         ))}
-                    </div>
+                    </div> */}
 
-                    {/* ---- CTA ---- */}
+                    {/* CTA */}
                     <Link
                         data-about-fade
                         href="/#categories"
@@ -382,9 +439,14 @@ const AboutUs = () => {
                         "
                     >
                         Explore the collection
+
                         <span
                             aria-hidden="true"
-                            className="transition-transform duration-300 group-hover:translate-x-1"
+                            className="
+                                transition-transform
+                                duration-300
+                                group-hover:translate-x-1
+                            "
                         >
                             →
                         </span>

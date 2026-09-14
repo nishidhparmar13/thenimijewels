@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { FaInstagram } from 'react-icons/fa'
 
 import mainCategories from '../../data/main-categories.json'
 
@@ -25,9 +26,9 @@ const exploreLinks = [
 
 // Placeholder handles — swap for the real profiles when they're live.
 const socials = [
-    { label: 'Instagram', short: 'IG', href: 'https://instagram.com' },
-    { label: 'Facebook', short: 'FB', href: 'https://facebook.com' },
-    { label: 'WhatsApp', short: 'WA', href: 'https://wa.me/' },
+    { label: 'Instagram', icon: FaInstagram, href: 'https://www.instagram.com/thenimijewels/' },
+    // { label: 'Facebook', short: 'FB', href: 'https://facebook.com' },
+    // { label: 'WhatsApp', short: 'WA', href: 'https://wa.me/' },
 ]
 
 const Footer = () => {
@@ -197,9 +198,8 @@ const Footer = () => {
                         />
 
                         <p className="mt-5 max-w-sm text-sm leading-relaxed text-ivory/60">
-                            Hand-finished, skin-kind jewellery for everyday
-                            chapters — designed and quality-checked by a small
-                            team that still opens every parcel.
+                            Jewellery made for your moments. Thoughtfully chosen,
+                            beautifully finished, and made to become part of your story.
                         </p>
 
                         {/* ---- Socials ---- */}
@@ -227,7 +227,10 @@ const Footer = () => {
                                             hover:text-burgundy
                                         "
                                     >
-                                        {social.short}
+                                        <social.icon
+                                            aria-hidden="true"
+                                            className="h-4.5 w-4.5"
+                                        />
                                     </a>
                                 </li>
                             ))}
@@ -325,14 +328,12 @@ const Footer = () => {
                         <ul className="mt-5 space-y-3 text-sm text-ivory/70">
                             <li>
                                 <a
-                                    href="mailto:hello@nimi.com"
+                                    href="mailto:thenimijewels@gmail.com"
                                     className="transition-colors duration-300 hover:text-champagne"
                                 >
-                                    hello@nimi.com
+                                    thenimijewels@gmail.com
                                 </a>
                             </li>
-                            <li>Mon – Sat, 10am – 7pm</li>
-                            <li>Ahmedabad, India</li>
                         </ul>
                     </div>
                 </div>

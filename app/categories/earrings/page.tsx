@@ -13,7 +13,7 @@ const EarringsPage = () => {
     return (
         <CategoryView
             title="Earrings"
-            description="Jhumkas, studs and statement drops — hand-finished in skin-kind, anti-tarnish metal. Light enough for a full day, heavy enough on presence."
+            description="Jhumkas, studs and statement drops."
             products={earrings as Product[]}
         />
     )
