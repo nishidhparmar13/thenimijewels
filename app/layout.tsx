@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Montserrat } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import Header from "./components/headers/Header";
 import Footer from "./components/footers/Footer";
@@ -41,6 +42,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <Footer />
       </body>
+      {/* Google Analytics 4 (gtag.js) — loads after hydration. */}
+      <GoogleAnalytics gaId="G-M6F1CPBSBW" />
     </html>
   );
 }

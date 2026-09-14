@@ -97,8 +97,11 @@ const ProductView = ({
 
     useEffect(() => {
         if (!copied) return
-        const timer = setTimeout(() => setCopied(false), 4000)
-        return () => clearTimeout(timer)
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setCopied(false)
+        }
+        window.addEventListener('keydown', onKey)
+        return () => window.removeEventListener('keydown', onKey)
     }, [copied])
 
     useEffect(() => {
@@ -290,12 +293,12 @@ const ProductView = ({
                                 )}
                             </div>
 
-                            <p
+                            {/* <p
                                 data-product-detail
                                 className="mt-1 text-xs text-taupe"
                             >
                                 Inclusive of all taxes
-                            </p>
+                            </p> */}
 
                             <div
                                 data-product-detail
@@ -304,6 +307,8 @@ const ProductView = ({
                             >
                                 <span className="h-px w-12 bg-champagne sm:w-16" />
                                 <span className="h-1.5 w-1.5 rotate-45 bg-champagne" />
+                                <span className="h-px w-12 bg-champagne sm:w-16" />
+
                             </div>
 
                             {/* <p
@@ -322,10 +327,8 @@ const ProductView = ({
                                 data-product-detail
                                 className="mt-8 flex flex-col gap-3 sm:flex-row"
                             >
-                                <a
-                                    href={enquiry}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                <button
+                                    type="button"
                                     onClick={copyOrderDetails}
                                     className="
                                         group
@@ -351,7 +354,7 @@ const ProductView = ({
                                     >
                                         →
                                     </span>
-                                </a>
+                                </button>
 
                                 <Link
                                     href={`/categories/${categorySlug}`}
@@ -373,14 +376,8 @@ const ProductView = ({
                                 </Link>
                             </div>
 
-                            <p
-                                role="status"
-                                aria-live="polite"
-                                className="mt-5 min-h-5 text-sm font-semibold text-taupe"
-                            >
-                                {copied
-                                    ? 'Details copied paste them in the Instagram chat to place your order.'
-                                    : 'Tap “Copy details & order”, then paste it in our DM.'}
+                            <p className="mt-5 min-h-5 text-sm font-semibold text-taupe">
+                                Tap “Copy details &amp; order”, then paste it in our DM.
                             </p>
 
                             {/* ---- Details list ---- */}
@@ -458,6 +455,85 @@ const ProductView = ({
                         </div>
                     </div>
                 </section>
+            )}
+
+            {/* ---------------- Details copied popup ---------------- */}
+            {copied && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-burgundy/40 px-5 backdrop-blur-sm"
+                    onClick={() => setCopied(false)}
+                >
+                    <div
+                        role="dialog"
+                        aria-modal="true"
+                        aria-labelledby="copied-heading"
+                        onClick={(e) => e.stopPropagation()}
+                        className="
+                            relative
+                            w-full max-w-sm
+                            rounded-3xl
+                            border border-champagne/40
+                            bg-ivory
+                            px-6 py-8
+                            text-center
+                            shadow-[0_24px_60px_rgba(72,12,20,0.35)]
+                            sm:px-8
+                        "
+                    >
+                        <button
+                            type="button"
+                            aria-label="Close"
+                            onClick={() => setCopied(false)}
+                            className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-taupe transition-colors duration-300 hover:bg-champagne/20 hover:text-burgundy"
+                        >
+                            ✕
+                        </button>
+
+                        <span
+                            aria-hidden="true"
+                            className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-champagne/30 text-lg text-burgundy"
+                        >
+                            ✓
+                        </span>
+
+                        <h2
+                            id="copied-heading"
+                            className="mt-4 font-heading text-2xl text-burgundy"
+                        >
+                            Details copied
+                        </h2>
+
+                        <p className="mt-2 text-sm leading-relaxed text-taupe">
+                            Click the order button below and paste the details
+                            in our Instagram DM to place your order.
+                        </p>
+
+                        <a
+                            href={enquiry}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            autoFocus
+                            onClick={() => setCopied(false)}
+                            className="
+                                mt-6
+                                inline-flex w-full items-center justify-center gap-3
+                                rounded-full
+                                bg-burgundy
+                                px-7 py-3.5
+                                text-[11px]
+                                font-medium
+                                uppercase
+                                tracking-[0.22em]
+                                text-ivory
+                                transition-colors duration-300
+                                hover:bg-wine
+                            "
+                        >
+                            Order on Instagram
+                            <span aria-hidden="true">→</span>
+                        </a>
+                    </div>
+                </div>
             )}
         </div>
     )
