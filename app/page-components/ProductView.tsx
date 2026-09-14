@@ -64,6 +64,7 @@ const ProductView = ({
     // link makes Instagram show the product image as a preview.
     const enquiry = `https://ig.me/m/thenimijewels`
     const [copied, setCopied] = useState(false)
+    const [inInstagramApp, setInInstagramApp] = useState(false)
 
     const copyOrderDetails = () => {
         const message = [
@@ -92,6 +93,7 @@ const ProductView = ({
             fallback()
         }
 
+        setInInstagramApp(/Instagram/i.test(navigator.userAgent))
         setCopied(true)
     }
 
@@ -341,13 +343,14 @@ const ProductView = ({
                                         uppercase
                                         tracking-[0.22em]
                                         text-ivory
+                                        cursor-pointer
                                         shadow-[0_10px_30px_rgba(72,12,20,0.25)]
                                         transition-all duration-300
                                         hover:bg-wine
                                         hover:shadow-[0_16px_40px_rgba(72,12,20,0.35)]
                                     "
                                 >
-                                    Copy details &amp; order
+                                    Order
                                     <span
                                         aria-hidden="true"
                                         className="transition-transform duration-300 group-hover:translate-x-1"
@@ -510,7 +513,10 @@ const ProductView = ({
 
                         <a
                             href={enquiry}
-                            target="_blank"
+                            // Inside Instagram's in-app browser a new tab spins
+                            // up a fresh webview that loads ig.me as a web page
+                            // (slow); same-tab lets Instagram open the DM natively.
+                            target={inInstagramApp ? undefined : '_blank'}
                             rel="noopener noreferrer"
                             autoFocus
                             onClick={() => setCopied(false)}
