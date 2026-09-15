@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -38,6 +38,9 @@ const details = [
     },
 ]
 
+// +91 82006 18171 — digits only, country code first, as wa.me expects.
+const WHATSAPP_NUMBER = '918200618171'
+
 interface ProductViewProps {
     product: Product
     categorySlug: string
@@ -59,17 +62,10 @@ const ProductView = ({
         ? Math.round((product.discount_amount / product.amount) * 100)
         : 0
 
-    // Instagram DMs can't be pre-filled, so the order button copies the
-    // details first and the customer pastes them into the chat. The page
-    // link makes Instagram show the product image as a preview.
-    const enquiry = `https://ig.me/m/thenimijewels`
-    // Inside Instagram's in-app browser, ig.me loads the Instagram website
-    // (slow). The app's own URL scheme jumps straight to the native profile.
-    const enquiryInApp = `instagram://user?username=thenimijewels`
-    const [copied, setCopied] = useState(false)
-    const [inInstagramApp, setInInstagramApp] = useState(false)
-
-    const copyOrderDetails = () => {
+    // WhatsApp pre-fills the chat from `?text=`, so the customer lands in a
+    // conversation with the order already typed out — they only hit send.
+    // The page link makes WhatsApp show the product image as a preview.
+    const orderOnWhatsApp = () => {
         const message = [
             `Hi nimi, I'd like to order:`,
             `${product.name}`,
@@ -78,36 +74,18 @@ const ProductView = ({
             `${window.location.origin}/products/${product.ref_no.toLowerCase()}`,
         ].join('\n')
 
-        const fallback = () => {
-            const textarea = document.createElement('textarea')
-            textarea.value = message
-            textarea.setAttribute('readonly', '')
-            textarea.style.position = 'fixed'
-            textarea.style.opacity = '0'
-            document.body.appendChild(textarea)
-            textarea.select()
-            document.execCommand('copy')
-            textarea.remove()
-        }
+        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 
-        if (navigator.clipboard?.writeText) {
-            navigator.clipboard.writeText(message).catch(fallback)
+        // New tab on desktop. In-app browsers (Instagram, Facebook) and popup
+        // blockers return null from window.open — navigate in place instead,
+        // which also lets the phone hand the link straight to the WhatsApp app.
+        const tab = window.open(url, '_blank')
+        if (tab) {
+            tab.opener = null
         } else {
-            fallback()
+            window.location.assign(url)
         }
-
-        setInInstagramApp(/Instagram/i.test(navigator.userAgent))
-        setCopied(true)
     }
-
-    useEffect(() => {
-        if (!copied) return
-        const onKey = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') setCopied(false)
-        }
-        window.addEventListener('keydown', onKey)
-        return () => window.removeEventListener('keydown', onKey)
-    }, [copied])
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -333,7 +311,7 @@ const ProductView = ({
                             >
                                 <button
                                     type="button"
-                                    onClick={copyOrderDetails}
+                                    onClick={orderOnWhatsApp}
                                     className="
                                         group
                                         inline-flex items-center justify-center gap-3
@@ -361,7 +339,7 @@ const ProductView = ({
                                     </span>
                                 </button>
 
-                                <Link
+                                {/* <Link
                                     href={`/categories/${categorySlug}`}
                                     className="
                                         inline-flex items-center justify-center
@@ -378,12 +356,12 @@ const ProductView = ({
                                     "
                                 >
                                     All {categoryTitle}
-                                </Link>
+                                </Link> */}
                             </div>
 
-                            <p className="mt-5 min-h-5 text-sm font-semibold text-taupe">
-                                Tap “Copy details &amp; order”, then paste it in our DM.
-                            </p>
+                            {/* <p className="mt-5 min-h-5 text-sm font-semibold text-taupe">
+                                Tap “Order” — your order details open ready to send on WhatsApp.
+                            </p> */}
 
                             {/* ---- Details list ---- */}
                             <dl className="mt-10 divide-y divide-champagne/40 border-y border-champagne/40">
@@ -462,87 +440,6 @@ const ProductView = ({
                 </section>
             )}
 
-            {/* ---------------- Details copied popup ---------------- */}
-            {copied && (
-                <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-burgundy/40 px-5 backdrop-blur-sm"
-                    onClick={() => setCopied(false)}
-                >
-                    <div
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="copied-heading"
-                        onClick={(e) => e.stopPropagation()}
-                        className="
-                            relative
-                            w-full max-w-sm
-                            rounded-3xl
-                            border border-champagne/40
-                            bg-ivory
-                            px-6 py-8
-                            text-center
-                            shadow-[0_24px_60px_rgba(72,12,20,0.35)]
-                            sm:px-8
-                        "
-                    >
-                        <button
-                            type="button"
-                            aria-label="Close"
-                            onClick={() => setCopied(false)}
-                            className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full text-taupe transition-colors duration-300 hover:bg-champagne/20 hover:text-burgundy"
-                        >
-                            ✕
-                        </button>
-
-                        <span
-                            aria-hidden="true"
-                            className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-champagne/30 text-lg text-burgundy"
-                        >
-                            ✓
-                        </span>
-
-                        <h2
-                            id="copied-heading"
-                            className="mt-4 font-heading text-2xl text-burgundy"
-                        >
-                            Details copied
-                        </h2>
-
-                        <p className="mt-2 text-sm leading-relaxed text-taupe">
-                            Click the order button below and paste the details
-                            in our Instagram DM to place your order.
-                        </p>
-
-                        <a
-                            href={inInstagramApp ? enquiryInApp : enquiry}
-                            // Inside Instagram's in-app browser a new tab spins
-                            // up a fresh webview that loads ig.me as a web page
-                            // (slow); same-tab lets Instagram open the DM natively.
-                            target={inInstagramApp ? undefined : '_blank'}
-                            rel="noopener noreferrer"
-                            autoFocus
-                            onClick={() => setCopied(false)}
-                            className="
-                                mt-6
-                                inline-flex w-full items-center justify-center gap-3
-                                rounded-full
-                                bg-burgundy
-                                px-7 py-3.5
-                                text-[11px]
-                                font-medium
-                                uppercase
-                                tracking-[0.22em]
-                                text-ivory
-                                transition-colors duration-300
-                                hover:bg-wine
-                            "
-                        >
-                            Order on Instagram
-                            <span aria-hidden="true">→</span>
-                        </a>
-                    </div>
-                </div>
-            )}
         </div>
     )
 }

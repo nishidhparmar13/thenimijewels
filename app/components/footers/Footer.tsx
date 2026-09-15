@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { FaInstagram } from 'react-icons/fa'
+import { FaEnvelope, FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
 
 import mainCategories from '../../data/main-categories.json'
 
@@ -28,7 +28,7 @@ const exploreLinks = [
 const socials = [
     { label: 'Instagram', icon: FaInstagram, href: 'https://www.instagram.com/thenimijewels/' },
     // { label: 'Facebook', short: 'FB', href: 'https://facebook.com' },
-    // { label: 'WhatsApp', short: 'WA', href: 'https://wa.me/' },
+    { label: 'WhatsApp', icon: FaWhatsapp, href: 'https://wa.me/918200618171' },
 ]
 
 const Footer = () => {
@@ -329,9 +329,25 @@ const Footer = () => {
                             <li>
                                 <a
                                     href="mailto:thenimijewels@gmail.com"
-                                    className="transition-colors duration-300 hover:text-champagne"
+                                    className="inline-flex items-center gap-2.5 transition-colors duration-300 hover:text-champagne"
                                 >
+                                    <FaEnvelope
+                                        aria-hidden="true"
+                                        className="h-3.5 w-3.5 shrink-0 text-champagne"
+                                    />
                                     thenimijewels@gmail.com
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="tel:+918200618171"
+                                    className="inline-flex items-center gap-2.5 whitespace-nowrap transition-colors duration-300 hover:text-champagne"
+                                >
+                                    <FaPhoneAlt
+                                        aria-hidden="true"
+                                        className="h-3.5 w-3.5 shrink-0 text-champagne"
+                                    />
+                                    +91 82006 18171
                                 </a>
                             </li>
                         </ul>
