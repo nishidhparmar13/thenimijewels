@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "./components/headers/Header";
 import Footer from "./components/footers/Footer";
 import Loader from "./components/loaders/Loader";
+import CartBar from "./components/cart/CartBar";
 
 // Headings — elegant, editorial serif that matches the nimi logo.
 const cormorantGaramond = Cormorant_Garamond({
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header />
         {children}
         <Footer />
+        <CartBar />
       </body>
       {/* Google Analytics 4 (gtag.js) — loads after hydration. */}
       <GoogleAnalytics gaId="G-M6F1CPBSBW" />

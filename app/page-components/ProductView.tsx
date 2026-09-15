@@ -4,7 +4,10 @@ import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { FaCheck, FaShoppingBag } from 'react-icons/fa'
 
+import { addToCart, useCartQuantity } from '../components/cart/cartStore'
+import { openWhatsApp, productUrl } from '../components/cart/whatsapp'
 import ProductGallery from '../components/products/ProductGallery'
 import ProductCard from '../components/products/ProductCard'
 import {
@@ -38,9 +41,6 @@ const details = [
     },
 ]
 
-// +91 82006 18171 — digits only, country code first, as wa.me expects.
-const WHATSAPP_NUMBER = '918200618171'
-
 interface ProductViewProps {
     product: Product
     categorySlug: string
@@ -62,30 +62,22 @@ const ProductView = ({
         ? Math.round((product.discount_amount / product.amount) * 100)
         : 0
 
-    // WhatsApp pre-fills the chat from `?text=`, so the customer lands in a
-    // conversation with the order already typed out — they only hit send.
-    // The page link makes WhatsApp show the product image as a preview.
+    // Orders just this piece, straight to WhatsApp with the message typed out.
     const orderOnWhatsApp = () => {
-        const message = [
-            `Hi nimi, I'd like to order:`,
-            `${product.name}`,
-            `Ref: ${product.ref_no}`,
-            `Price: ${formatPrice(price)}`,
-            `${window.location.origin}/products/${product.ref_no.toLowerCase()}`,
-        ].join('\n')
-
-        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
-
-        // New tab on desktop. In-app browsers (Instagram, Facebook) and popup
-        // blockers return null from window.open — navigate in place instead,
-        // which also lets the phone hand the link straight to the WhatsApp app.
-        const tab = window.open(url, '_blank')
-        if (tab) {
-            tab.opener = null
-        } else {
-            window.location.assign(url)
-        }
+        openWhatsApp(
+            [
+                `Hi nimi, I'd like to order:`,
+                `${product.name}`,
+                `Ref: ${product.ref_no}`,
+                `Price: ${formatPrice(price)}`,
+                productUrl(product.ref_no),
+            ].join('\n'),
+        )
     }
+
+    // The button reads "Added to cart" for as long as the piece is in the
+    // cart — it follows the cart itself, so removing it there resets this.
+    const isInCart = useCartQuantity(product.ref_no) > 0
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -339,10 +331,11 @@ const ProductView = ({
                                     </span>
                                 </button>
 
-                                {/* <Link
-                                    href={`/categories/${categorySlug}`}
-                                    className="
-                                        inline-flex items-center justify-center
+                                <button
+                                    type="button"
+                                    onClick={() => addToCart(product)}
+                                    className={`
+                                        inline-flex items-center justify-center gap-3
                                         rounded-full
                                         border border-champagne
                                         px-7 py-3.5
@@ -351,12 +344,21 @@ const ProductView = ({
                                         uppercase
                                         tracking-[0.22em]
                                         text-burgundy
+                                        cursor-pointer
                                         transition-colors duration-300
                                         hover:bg-champagne/20
-                                    "
+                                        ${isInCart ? 'bg-champagne/25' : ''}
+                                    `}
                                 >
-                                    All {categoryTitle}
-                                </Link> */}
+                                    {isInCart ? (
+                                        <FaCheck aria-hidden="true" className="h-3.5 w-3.5" />
+                                    ) : (
+                                        <FaShoppingBag aria-hidden="true" className="h-3.5 w-3.5" />
+                                    )}
+                                    <span aria-live="polite">
+                                        {isInCart ? 'Added to cart' : 'Add to cart'}
+                                    </span>
+                                </button>
                             </div>
 
                             {/* <p className="mt-5 min-h-5 text-sm font-semibold text-taupe">

@@ -3,7 +3,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { FaShoppingBag } from 'react-icons/fa'
 
+import { useCartQuantity } from '../cart/cartStore'
 import { finalPrice, formatPrice, type Product } from './product'
 
 const labelStyles: Record<string, string> = {
@@ -69,6 +71,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
     const percentOff = hasDiscount
         ? Math.round((product.discount_amount / product.amount) * 100)
         : 0
+
+    const inCart = useCartQuantity(product.ref_no)
 
     return (
         <article
@@ -180,6 +184,35 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         "
                     >
                         {percentOff}% off
+                    </span>
+                )}
+
+                {/* In-cart badge — bottom-left, the one free corner */}
+                {inCart > 0 && (
+                    <span
+                        className="
+                            absolute bottom-2 left-2
+                            inline-flex items-center gap-1.5
+                            rounded-full
+                            bg-burgundy/90
+                            py-0.5 pl-2 pr-0.5
+                            text-[8px]
+                            font-medium
+                            uppercase
+                            tracking-[0.12em]
+                            text-ivory
+                            shadow-[0_6px_16px_rgba(72,12,20,0.3)]
+                            backdrop-blur-sm
+                            sm:bottom-3 sm:left-3
+                            sm:py-1 sm:pl-3 sm:pr-1
+                            sm:text-[9px] sm:tracking-[0.16em]
+                        "
+                    >
+                        <FaShoppingBag aria-hidden="true" className="h-2.5 w-2.5 text-champagne" />
+                        In cart
+                        <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-champagne px-1 text-[9px] tabular-nums tracking-normal text-burgundy sm:h-5 sm:min-w-5 sm:text-[10px]">
+                            {inCart}
+                        </span>
                     </span>
                 )}
             </div>
