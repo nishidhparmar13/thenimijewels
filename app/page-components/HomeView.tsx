@@ -2,6 +2,7 @@ import React from 'react'
 import HeroCarousel from '../components/heroes/HeroCarousel'
 import MainCategories from './MainCategories.'
 import AboutUs from './AboutUs'
+import InstaReels from './InstaReels'
 
 const HomeView = () => {
     return (
@@ -12,6 +13,7 @@ const HomeView = () => {
 
                 <HeroCarousel />
                 <MainCategories />
+                <InstaReels />
                 <AboutUs />
             </main>
         </>
