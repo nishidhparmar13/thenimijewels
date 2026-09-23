@@ -9,7 +9,9 @@
         "ref_no": "NIMI-NECK-001",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Mandala Choker",
@@ -21,10 +23,13 @@
         "ref_no": "NIMI-NECK-002",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": "trending"
+        "label": "trending",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Doli Barat Choker",
+        "is_available": false,
         "amount": 299,
         "image": [
             "/categories/neckless/NIMI-NECK-003/1.png",
@@ -33,7 +38,9 @@
         "ref_no": "NIMI-NECK-003",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Hasli choker",
@@ -45,7 +52,9 @@
         "ref_no": "NIMI-NECK-004",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Multicolour choker",
@@ -57,6 +66,8 @@
         "ref_no": "NIMI-NECK-005",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     }
 ]

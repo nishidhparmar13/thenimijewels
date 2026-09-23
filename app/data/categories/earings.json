@@ -9,7 +9,9 @@
         "ref_no": "NIMI-EAR-001",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Oxidised Teardrop Jhumkha",
@@ -21,7 +23,9 @@
         "ref_no": "NIMI-EAR-002",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Trishul Jhumkha",
@@ -33,7 +37,9 @@
         "ref_no": "NIMI-EAR-003",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Radha Krishna Jhumkha",
@@ -45,7 +51,9 @@
         "ref_no": "NIMI-EAR-004",
         "discount_amount": 20,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Peacock Butterfly Jhumkha",
@@ -57,7 +65,9 @@
         "ref_no": "NIMI-EAR-005",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Dome shape Jhumkha",
@@ -69,7 +79,9 @@
         "ref_no": "NIMI-EAR-006",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Red & green diamond pattern",
@@ -81,7 +93,9 @@
         "ref_no": "NIMI-EAR-007",
         "discount_amount": 30,
         "type": "oxidise",
-        "label": "trending"
+        "label": "trending",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Radha Krishna Jhumkha",
@@ -93,7 +107,9 @@
         "ref_no": "NIMI-EAR-008",
         "discount_amount": 20,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Vrindavan Heritage",
@@ -105,7 +121,9 @@
         "ref_no": "NIMI-EAR-009",
         "discount_amount": 20,
         "type": "oxidise",
-        "label": "trending"
+        "label": "trending",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Boho Chandbalis",
@@ -117,7 +135,9 @@
         "ref_no": "NIMI-EAR-010",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Kashmiri",
@@ -129,7 +149,9 @@
         "ref_no": "NIMI-EAR-011",
         "discount_amount": 40,
         "type": "oxidise",
-        "label": "trending"
+        "label": "trending",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Red & green peacock",
@@ -141,6 +163,64 @@
         "ref_no": "NIMI-EAR-012",
         "discount_amount": 20,
         "type": "oxidise",
-        "label": "trending"
+        "label": "trending",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
+    },
+    {
+        "name": "Turquoise oasis jhumka",
+        "amount": 279,
+        "image": [
+            "/categories/earings/NIMI-EAR-014/1.png",
+            "/categories/earings/NIMI-EAR-014/2.png"
+        ],
+        "ref_no": "NIMI-EAR-014",
+        "discount_amount": 0,
+        "type": "german_silver",
+        "label": "new",
+        "materials": "German Silver",
+        "care": ""
+    },
+    {
+        "name": "Pastel pink petal lotus",
+        "amount": 279,
+        "image": [
+            "/categories/earings/NIMI-EAR-015/1.png",
+            "/categories/earings/NIMI-EAR-015/2.png"
+        ],
+        "ref_no": "NIMI-EAR-015",
+        "discount_amount": 0,
+        "type": "german_silver",
+        "label": "new",
+        "materials": "German Silver",
+        "care": ""
+    },
+    {
+        "name": "Pastel pink peacock dangler",
+        "amount": 249,
+        "image": [
+            "/categories/earings/NIMI-EAR-016/1.png",
+            "/categories/earings/NIMI-EAR-016/2.png"
+        ],
+        "ref_no": "NIMI-EAR-016",
+        "discount_amount": 0,
+        "type": "german_silver",
+        "label": "new",
+        "materials": "German Silver",
+        "care": ""
+    },
+    {
+        "name": "Sea green monalisa stone with ghungroo",
+        "amount": 349,
+        "image": [
+            "/categories/earings/NIMI-EAR-017/1.png",
+            "/categories/earings/NIMI-EAR-017/2.png"
+        ],
+        "ref_no": "NIMI-EAR-017",
+        "discount_amount": 0,
+        "type": "german_silver",
+        "label": "new",
+        "materials": "German Silver",
+        "care": ""
     }
 ]

@@ -19,22 +19,14 @@ import {
 gsap.registerPlugin(ScrollTrigger)
 
 const labelStyles: Record<string, string> = {
-    trending: 'bg-burgundy text-ivory',
-    new: 'bg-champagne text-burgundy',
-    bestseller: 'bg-wine text-ivory',
+    trending: 'bg-wine text-champagne',
+    new: 'bg-charcoal text-ivory',
+    bestseller: 'bg-champagne text-burgundy',
 }
 
 // Same for every piece in the range — kept here rather than repeated in
 // each product's JSON entry.
-const details = [
-    {
-        title: 'Materials',
-        copy: 'Oxidised',
-    },
-    {
-        title: 'Care',
-        copy: 'Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use.',
-    },
+const shippingDetails = [
     {
         title: 'Shipping & returns',
         copy: 'Shipping charges are calculated based on your delivery location. Orders are dispatched within 2–3 working days.',
@@ -55,6 +47,14 @@ const ProductView = ({
     related,
 }: ProductViewProps) => {
     const pageRef = useRef<HTMLDivElement>(null)
+
+    // Materials and care come from the product's JSON entry; empty ones
+    // are left out rather than shown as a blank row.
+    const details = [
+        { title: 'Materials', copy: product.materials },
+        { title: 'Care', copy: product.care },
+        ...shippingDetails,
+    ].filter((detail) => detail.copy)
 
     const price = finalPrice(product)
     const hasDiscount = product.discount_amount > 0

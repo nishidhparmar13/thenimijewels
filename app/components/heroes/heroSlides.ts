@@ -11,7 +11,7 @@ export interface HeroSlide {
 }
 
 export const heroSlides: HeroSlide[] = [
-    { src: '/hero-banners/b1.png', alt: 'nimi jewellery collection banner' },
-    { src: '/hero-banners/b2.png', alt: 'nimi handcrafted earrings banner' },
-    { src: '/hero-banners/b3.png', alt: 'nimi festive collection banner' },
+    { src: '/hero-banners/b4.png', alt: 'nimi jewellery collection banner' },
+    { src: '/hero-banners/b6.png', alt: 'nimi festive collection banner' },
+    { src: '/hero-banners/b5.png', alt: 'nimi handcrafted earrings banner' },
 ]

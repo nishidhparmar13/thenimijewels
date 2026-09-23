@@ -12,10 +12,19 @@ import { finalPrice, type Product } from '../components/products/product'
 
 gsap.registerPlugin(ScrollTrigger, SplitText, Flip)
 
-type SortKey = 'featured' | 'price-asc' | 'price-desc'
+type SortKey =
+    | 'featured'
+    | 'trending'
+    | 'new'
+    | 'bestseller'
+    | 'price-asc'
+    | 'price-desc'
 
 const sortOptions: { key: SortKey; label: string }[] = [
     { key: 'featured', label: 'Featured' },
+    { key: 'trending', label: 'Trending' },
+    { key: 'new', label: 'New arrivals' },
+    { key: 'bestseller', label: 'Bestsellers' },
     { key: 'price-asc', label: 'Price: low to high' },
     { key: 'price-desc', label: 'Price: high to low' },
 ]
@@ -24,6 +33,7 @@ const sortOptions: { key: SortKey; label: string }[] = [
 // shows up here without touching this file.
 const typeLabels: Record<string, string> = {
     oxidise: 'Oxidised',
+    german_silver: 'German Silver',
     korean: 'Korean',
     jhumka: 'Jhumkas',
     stud: 'Studs',
@@ -61,7 +71,7 @@ const CategoryView = ({
     unit = ['piece', 'pieces'],
 }: CategoryViewProps) => {
     const [activeType, setActiveType] = useState<string>('all')
-    const [sort, setSort] = useState<SortKey>('featured')
+    const [sort, setSort] = useState<SortKey>('new')
     // True while the grid is re-laying itself out — drives the loading bar.
     const [pending, setPending] = useState(false)
 
@@ -92,6 +102,12 @@ const CategoryView = ({
         }
         if (sort === 'price-desc') {
             return [...list].sort((a, b) => finalPrice(b) - finalPrice(a))
+        }
+        if (sort === 'trending' || sort === 'new' || sort === 'bestseller') {
+            // Pieces carrying the matching `label` come first; the rest keep
+            // their JSON order (Array.prototype.sort is stable).
+            const rank = (p: Product) => (p.label === sort ? 0 : 1)
+            return [...list].sort((a, b) => rank(a) - rank(b))
         }
         return list
     }, [products, activeType, sort])

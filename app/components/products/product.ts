@@ -17,6 +17,10 @@ export interface Product {
     discount_description?: string
     type: string
     label: string
+    materials?: string
+    care?: string
+    /** Only `false` marks a piece as sold out — missing means available. */
+    is_available?: boolean
 }
 
 /** ₹1,299 — Indian grouping, no decimals. */

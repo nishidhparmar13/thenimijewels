@@ -8,7 +8,9 @@
         "ref_no": "NIMI-RING-001",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Flower ring",
@@ -19,7 +21,9 @@
         "ref_no": "NIMI-RING-002",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Flower ring",
@@ -30,7 +34,9 @@
         "ref_no": "NIMI-RING-003",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Flower ring",
@@ -41,7 +47,9 @@
         "ref_no": "NIMI-RING-004",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Flower ring",
@@ -52,7 +60,9 @@
         "ref_no": "NIMI-RING-005",
         "discount_amount": 0,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Ghungroo ring",
@@ -63,7 +73,9 @@
         "ref_no": "NIMI-RING-006",
         "discount_amount": 30,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Ghungroo ring",
@@ -74,7 +86,9 @@
         "ref_no": "NIMI-RING-007",
         "discount_amount": 30,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Ghungroo ring",
@@ -85,7 +99,9 @@
         "ref_no": "NIMI-RING-008",
         "discount_amount": 30,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Ghungroo ring",
@@ -96,7 +112,9 @@
         "ref_no": "NIMI-RING-009",
         "discount_amount": 30,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Ghungroo ring",
@@ -107,7 +125,9 @@
         "ref_no": "NIMI-RING-010",
         "discount_amount": 30,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     },
     {
         "name": "Ghungroo ring",
@@ -118,6 +138,8 @@
         "ref_no": "NIMI-RING-011",
         "discount_amount": 30,
         "type": "oxidise",
-        "label": ""
+        "label": "",
+        "materials": "Oxidised",
+        "care": "Keep away from water, perfume and chemicals. Store dry and wipe gently with a soft cloth after use."
     }
 ]

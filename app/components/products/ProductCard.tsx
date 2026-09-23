@@ -9,9 +9,9 @@ import { useCartQuantity } from '../cart/cartStore'
 import { finalPrice, formatPrice, type Product } from './product'
 
 const labelStyles: Record<string, string> = {
-    trending: 'bg-burgundy text-ivory',
-    new: 'bg-champagne text-burgundy',
-    bestseller: 'bg-wine text-ivory',
+    trending: 'bg-wine text-champagne',
+    new: 'bg-charcoal text-ivory',
+    bestseller: 'bg-champagne text-burgundy',
 }
 
 interface ProductCardProps {
@@ -74,11 +74,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
     const inCart = useCartQuantity(product.ref_no)
 
+    // Sold-out pieces stay in the grid but are greyed out, lose their hover
+    // effects (no `group`) and aren't linked.
+    const unavailable = product.is_available === false
+
     return (
         <article
             data-product-card
-            className="
-                group
+            aria-disabled={unavailable || undefined}
+            className={`
                 relative
                 flex h-full flex-col
                 overflow-hidden
@@ -88,10 +92,16 @@ const ProductCard = ({ product }: ProductCardProps) => {
                 shadow-[0_8px_24px_rgba(72,12,20,0.05)]
                 transition-all duration-500
                 sm:rounded-2xl
-                hover:-translate-y-1.5
-                hover:border-champagne
-                hover:shadow-[0_20px_44px_rgba(72,12,20,0.14)]
-            "
+                ${unavailable
+                    ? 'cursor-not-allowed opacity-60 grayscale'
+                    : `
+                        group
+                        hover:-translate-y-1.5
+                        hover:border-champagne
+                        hover:shadow-[0_20px_44px_rgba(72,12,20,0.14)]
+                    `
+                }
+            `}
         >
             <div className="relative h-[350px] w-full overflow-hidden bg-ivory">
                 {thumbFailed ? (
@@ -184,6 +194,28 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         "
                     >
                         {percentOff}% off
+                    </span>
+                )}
+
+                {/* Sold-out badge */}
+                {unavailable && (
+                    <span
+                        className="
+                            absolute left-1/2 top-1/2
+                            -translate-x-1/2 -translate-y-1/2
+                            rounded-full
+                            bg-charcoal/85
+                            px-4 py-1.5
+                            text-[9px]
+                            font-medium
+                            uppercase
+                            tracking-[0.2em]
+                            text-ivory
+                            backdrop-blur-sm
+                            sm:text-[10px]
+                        "
+                    >
+                        Sold out
                     </span>
                 )}
 
@@ -284,12 +316,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
             {/* Whole tile is the link. An overlay anchor keeps the markup
                 flat, so FLIP still animates a single element per card. */}
-            <Link
-                href={`/products/${product.ref_no.toLowerCase()}`}
-                className="absolute inset-0 z-10 rounded-xl sm:rounded-2xl"
-            >
-                <span className="sr-only">View {product.name}</span>
-            </Link>
+            {!unavailable && (
+                <Link
+                    href={`/products/${product.ref_no.toLowerCase()}`}
+                    className="absolute inset-0 z-10 rounded-xl sm:rounded-2xl"
+                >
+                    <span className="sr-only">View {product.name}</span>
+                </Link>
+            )}
 
             {/* Champagne hairline that draws across the base on hover */}
             <span
