@@ -306,12 +306,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
                     )}
                 </div>
 
-                {hasDiscount && (
+                {/* {hasDiscount && (
                     <p className="mt-1.5 text-[9px] italic tracking-[0.04em] text-wine sm:text-[11px]">
                         Discount till 24-09-2026
 
                     </p>
-                )}
+                )} */}
             </div>
 
             {/* Whole tile is the link. An overlay anchor keeps the markup
