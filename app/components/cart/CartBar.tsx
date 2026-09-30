@@ -244,6 +244,9 @@ const CartBar = () => {
                 `Total: ${formatPrice(total)}`,
             ].join('\n'),
         )
+
+        // The order is on its way to WhatsApp — close the sheet, then empty the cart.
+        closeSheet(clearCart)
     }
 
     return (
