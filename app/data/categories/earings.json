@@ -179,7 +179,8 @@
         "type": "german_silver",
         "label": "new",
         "materials": "German Silver",
-        "care": ""
+        "care": "",
+        "is_available": false
     },
     {
         "name": "Pastel pink petal lotus",
