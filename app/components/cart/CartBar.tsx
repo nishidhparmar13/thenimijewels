@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import SmoothImage from '../media/SmoothImage'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { FaShoppingBag, FaTimes, FaTrashAlt, FaWhatsapp } from 'react-icons/fa'
@@ -400,7 +400,7 @@ const CartBar = () => {
                                 >
                                     <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-champagne/40 bg-white">
                                         {item.image ? (
-                                            <Image
+                                            <SmoothImage
                                                 src={item.image}
                                                 alt={item.name}
                                                 fill
