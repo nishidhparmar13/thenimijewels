@@ -199,3 +199,49 @@ body {
     animation: none;
   }
 }
+
+/* -------------------------------------------------------------
+   Image loading veil (app/components/media/SmoothImage.tsx)
+   Covers a CMS photo with a champagne shimmer while it loads and
+   blurs the photo underneath; fading the veil out reads as the
+   image sharpening into focus.
+   ------------------------------------------------------------- */
+@keyframes smooth-image-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.smooth-image-veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg,
+      rgb(250 247 242 / 0.85) 30%,
+      rgb(216 194 165 / 0.45) 50%,
+      rgb(250 247 242 / 0.85) 70%);
+  background-size: 200% 100%;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  animation: smooth-image-shimmer 1.6s ease-in-out infinite;
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.9s;
+}
+
+.smooth-image-veil[data-loaded] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smooth-image-veil {
+    animation: none;
+    transition-duration: 0.2s, 0s;
+    transition-delay: 0s, 0.2s;
+  }
+}

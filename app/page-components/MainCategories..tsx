@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import SmoothImage from '../components/media/SmoothImage'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
@@ -291,7 +291,7 @@ const MainCategories = ({ categories }: { categories: Category[] }) => {
                             {/* Fixed ratio → identical card size across the row */}
                             <div className="relative aspect-4/5 w-full overflow-hidden lg:aspect-3/4">
                                 {hasImage(category.image) ? (
-                                    <Image
+                                    <SmoothImage
                                         data-card-media
                                         src={category.image}
                                         alt={category.title}

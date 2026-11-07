@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import SmoothImage from '../media/SmoothImage'
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 
@@ -90,7 +90,7 @@ md:h-[750px] h-[400px]
                         {monogram('text-7xl sm:text-8xl')}
                     </div>
                 ) : (
-                    <Image
+                    <SmoothImage
                         key={images[active]}
                         data-gallery-active
                         src={images[active]}
@@ -152,7 +152,7 @@ md:h-[750px] h-[400px]
                                 {failed[index] ? (
                                     monogram('text-2xl')
                                 ) : (
-                                    <Image
+                                    <SmoothImage
                                         src={image}
                                         alt=""
                                         fill

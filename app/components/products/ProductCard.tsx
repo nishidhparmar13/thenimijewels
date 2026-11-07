@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import SmoothImage from '../media/SmoothImage'
 import Link from 'next/link'
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { FaShoppingBag } from 'react-icons/fa'
@@ -119,7 +120,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
                         </span>
                     </div>
                 ) : (
-                    <Image
+                    <SmoothImage
                         src={thumb}
                         alt={product.name}
                         fill
