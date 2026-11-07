@@ -3,8 +3,11 @@ import HeroCarousel from '../components/heroes/HeroCarousel'
 import MainCategories from './MainCategories.'
 import AboutUs from './AboutUs'
 import InstaReels from './InstaReels'
+import { getCategories } from '../lib/cms'
 
-const HomeView = () => {
+const HomeView = async () => {
+    const categories = await getCategories()
+
     return (
         <>
             <main>
@@ -12,7 +15,7 @@ const HomeView = () => {
                 <div className="h-16 xs:h-[72px] sm:h-[82px]" />
 
                 <HeroCarousel />
-                <MainCategories />
+                <MainCategories categories={categories} />
                 <InstaReels />
                 <AboutUs />
             </main>

@@ -2,22 +2,19 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
 import ProductView from '../../page-components/ProductView'
-import {
-    allEntries,
-    findEntry,
-    relatedProducts,
-} from '../../data/catalogue'
+import { getAllEntries, getEntry, getRelatedProducts } from '../../lib/cms'
 import { finalPrice, formatPrice } from '../../components/products/product'
 
-// Every piece in the catalogue is prerendered at build time.
+// Every piece in the catalogue is prerendered at build time; pieces added
+// in the CMS later render on first visit.
 export const generateStaticParams = async () =>
-    allEntries.map((entry) => ({ ref: entry.product.ref_no.toLowerCase() }))
+    (await getAllEntries()).map((entry) => ({ ref: entry.product.ref_no.toLowerCase() }))
 
 export const generateMetadata = async ({
     params,
 }: PageProps<'/products/[ref]'>): Promise<Metadata> => {
     const { ref } = await params
-    const entry = findEntry(ref)
+    const entry = await getEntry(ref)
 
     if (!entry) return { title: 'Product not found | nimi' }
 
@@ -46,7 +43,7 @@ export const generateMetadata = async ({
 
 const ProductPage = async ({ params }: PageProps<'/products/[ref]'>) => {
     const { ref } = await params
-    const entry = findEntry(ref)
+    const entry = await getEntry(ref)
 
     if (!entry) notFound()
 
@@ -55,7 +52,7 @@ const ProductPage = async ({ params }: PageProps<'/products/[ref]'>) => {
             product={entry.product}
             categorySlug={entry.categorySlug}
             categoryTitle={entry.categoryTitle}
-            related={relatedProducts(entry)}
+            related={await getRelatedProducts(entry)}
         />
     )
 }

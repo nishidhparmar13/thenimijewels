@@ -7,16 +7,13 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FaEnvelope, FaInstagram, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa'
 
-import mainCategories from '../../data/main-categories.json'
 
 gsap.registerPlugin(ScrollTrigger)
 
-interface MainCategory {
+interface FooterCategory {
     title: string
     slug: string
 }
-
-const categories = mainCategories as MainCategory[]
 
 const exploreLinks = [
     { label: 'Home', href: '/' },
@@ -31,7 +28,7 @@ const socials = [
     { label: 'WhatsApp', icon: FaWhatsapp, href: 'https://wa.me/918200618171' },
 ]
 
-const Footer = () => {
+const Footer = ({ categories }: { categories: FooterCategory[] }) => {
     const footerRef = useRef<HTMLElement>(null)
 
     useEffect(() => {

@@ -6,7 +6,7 @@
  * metadata, static params, and so on).
  */
 
-/** One entry from app/data/categories/*.json */
+/** One product, as mapped from the CMS in app/lib/cms.ts */
 export interface Product {
     name: string
     description?: string

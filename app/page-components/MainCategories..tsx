@@ -6,24 +6,14 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-import mainCategories from '../data/main-categories.json'
+import type { Category } from '../lib/cms'
 
 gsap.registerPlugin(ScrollTrigger)
 
-interface MainCategory {
-    title: string
-    slug: string
-    description: string
-    image: string
-}
-
-const categories = mainCategories as MainCategory[]
-
-// The JSON ships "/" as a placeholder until real photography lands, so
-// anything that isn't a real file path falls back to the monogram tile.
+// A category without an image in the CMS falls back to the monogram tile.
 const hasImage = (image: string) => image.length > 1 && image !== '/'
 
-const MainCategories = () => {
+const MainCategories = ({ categories }: { categories: Category[] }) => {
     const sectionRef = useRef<HTMLElement>(null)
 
     useEffect(() => {

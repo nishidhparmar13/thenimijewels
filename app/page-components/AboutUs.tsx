@@ -222,7 +222,7 @@ const AboutUs = () => {
                     >
                         <Image
                             data-about-photo
-                            src="/categories/neckless/NIMI-NECK-004/2.png"
+                            src="/about/about-necklace.png"
                             alt="A nimi necklace, hand-finished in our studio"
                             fill
                             sizes="(min-width: 1024px) 45vw, 100vw"

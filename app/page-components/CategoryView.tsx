@@ -50,7 +50,7 @@ interface CategoryViewProps {
     title: string
     /** One or two lines under the heading. */
     description: string
-    /** The category's entries from app/data/categories/*.json */
+    /** The category's products, fetched from the CMS */
     products: Product[]
     /** "piece" / "pieces" — override for categories that read oddly. */
     unit?: [singular: string, plural: string]
