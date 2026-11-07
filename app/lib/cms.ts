@@ -75,17 +75,40 @@ interface CmsList<T> {
 // Fetching
 // ---------------------------------------------------------------------------
 
-const cmsFetch = async <T>(path: string, params: Record<string, string>): Promise<T> => {
+const isBuildPhase = process.env.NEXT_PHASE === 'phase-production-build'
+let warnedUnreachable = false
+
+const cmsFetch = async <T extends CmsList<unknown>>(
+    path: string,
+    params: Record<string, string>,
+): Promise<T> => {
     const url = new URL(`/api/${path}`, CMS_URL)
     for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value)
 
-    const res = await fetch(url, {
-        next: { revalidate: 60, tags: [CMS_CACHE_TAG] },
-    })
-    if (!res.ok) {
-        throw new Error(`CMS request failed: ${res.status} ${res.statusText} (${url})`)
+    try {
+        const res = await fetch(url, {
+            next: { revalidate: 60, tags: [CMS_CACHE_TAG] },
+        })
+        if (!res.ok) {
+            throw new Error(`CMS request failed: ${res.status} ${res.statusText} (${url})`)
+        }
+        return (await res.json()) as T
+    } catch (error) {
+        // If the CMS is unreachable while building, don't fail the build:
+        // render with empty data and let ISR (revalidate: 60) fill pages in
+        // once the CMS is up. At runtime we rethrow so Next keeps serving
+        // the last good page instead of caching an empty one.
+        if (!isBuildPhase) throw error
+        if (!warnedUnreachable) {
+            warnedUnreachable = true
+            console.warn(
+                `[cms] Could not reach the CMS at ${CMS_URL} during build; ` +
+                    `rendering with empty data. Pages will refresh once it is reachable.`,
+                error instanceof Error ? error.message : error,
+            )
+        }
+        return { docs: [] } as unknown as T
     }
-    return res.json() as Promise<T>
 }
 
 /** Payload returns `/api/media/file/x.png`; next/image needs an absolute URL. */
