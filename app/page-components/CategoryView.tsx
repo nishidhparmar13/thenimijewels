@@ -70,7 +70,7 @@ const CategoryView = ({
     products,
     unit = ['piece', 'pieces'],
 }: CategoryViewProps) => {
-    const [activeType, setActiveType] = useState<string>('all')
+    const [selectedType, setSelectedType] = useState<string | null>(null)
     const [sort, setSort] = useState<SortKey>('new')
     // True while the grid is re-laying itself out — drives the loading bar.
     const [pending, setPending] = useState(false)
@@ -92,9 +92,15 @@ const CategoryView = ({
         return [...counts.entries()]
     }, [products])
 
+    // No "All" chip: the first type is selected by default. Falls back to it
+    // too if the selection doesn't exist in this category's products.
+    const activeType = types.some(([type]) => type === selectedType)
+        ? selectedType
+        : (types[0]?.[0] ?? null)
+
     const visible = useMemo(() => {
         const list = products.filter(
-            (p) => activeType === 'all' || p.type === activeType,
+            (p) => activeType === null || p.type === activeType,
         )
 
         if (sort === 'price-asc') {
@@ -350,7 +356,7 @@ const CategoryView = ({
                 >
                     {/* Type chips */}
                     <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:pb-0">
-                        {[['all', products.length] as const, ...types].map(
+                        {types.map(
                             ([type, count]) => {
                                 const active = activeType === type
 
@@ -361,7 +367,7 @@ const CategoryView = ({
                                         aria-pressed={active}
                                         onClick={() => {
                                             captureLayout(activeType !== type)
-                                            setActiveType(type)
+                                            setSelectedType(type)
                                         }}
                                         className={`
                                             shrink-0
@@ -379,7 +385,7 @@ const CategoryView = ({
                                             }
                                         `}
                                     >
-                                        {type === 'all' ? 'All' : labelFor(type)}
+                                        {labelFor(type)}
                                         <span className="ml-1.5 opacity-60">
                                             {count}
                                         </span>
